@@ -2,14 +2,37 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.tarotdairy">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_CALENDAR" />
+    <uses-permission android:name="android.permission.WRITE_CALENDAR" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
-        android:label="@string/app_name"
+        android:label="Tarot Dairy"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.TarotDairy">
-        <activity android:name=".MainActivity">
+        <activity android:name=".RatingActivity"></activity>
+        <activity android:name=".Register" />
+        <activity android:name=".Login" />
+        <activity android:name=".Remind" />
+        <activity android:name=".InfoQna" />
+        <activity android:name=".InfoDiary" />
+        <activity android:name=".InfoCard" />
+        <activity android:name=".My" />
+        <activity android:name=".HistoryQna" />
+        <activity android:name=".HistoryDiary" />
+        <activity
+            android:name=".MainActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

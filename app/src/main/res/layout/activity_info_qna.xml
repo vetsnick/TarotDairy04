@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".InfoQna">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="5dp"
+            android:fontFamily="@font/basic"
+            android:text="질문"
+            android:textSize="20dp" />
+
+    </LinearLayout>
+
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginBottom="5dp"
+        android:background="@drawable/comment"
+        android:hint="추가한 질문 내용"
+        android:maxLines="3"
+        android:padding="3dp"
+        android:textSize="18dp" />
+
+<!--    여기서는 수정 불가능하고 리사이클러뷰에서 길게 눌러서 수정 가능-->
+
+
+    <ImageView
+        android:layout_marginTop="10dp"
+        android:layout_width="180dp"
+        android:layout_height="270dp"
+        android:layout_gravity="center"
+        android:background="@drawable/card" />
+    <!--    클릭 시, 1~78 중 랜덤 이미지 하나 등장-->
+    <!--    이미 뽑은 이력이 있으면, 뽑았던 사진 표시-->
+    <!--    카드명도 뜨게 만들기-->
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="8dp"
+        android:fontFamily="@font/basic"
+        android:text="Yes or No" />
+    <!--    사진 선택되면 키워드로 변경 -->
+
+
+    <LinearLayout
+        android:layout_marginTop="8dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:textColor="@color/white"
+            android:text="현재 카드 기록"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_weight="1" />
+
+        <Button
+            android:textColor="@color/white"
+            android:text="유저 게시판"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_weight="1" />
+
+
+        <Button
+            android:textColor="@color/white"
+            android:text="원문 사이트"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_weight="1" />
+
+
+    </LinearLayout>
+
+
+</LinearLayout>

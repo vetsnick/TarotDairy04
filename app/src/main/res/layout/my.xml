@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".My">
+
+    <LinearLayout
+        android:id="@+id/settingscreen"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingBottom="13dp">
+
+            <TextView
+                android:layout_width="230dp"
+                android:layout_height="50dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="15dp"
+                android:background="@drawable/login"
+                android:fontFamily="@font/basic"
+                android:gravity="center"
+                android:text="로그인 / 회원가입"
+                android:textColor="@color/white"
+                android:textSize="17dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="2dp"
+                android:paddingBottom="3dp"
+                android:text="더 많은 컨텐츠를 이용하세요"
+                android:textColor="#6E6E6E"
+                android:textSize="10dp" />
+
+
+        </LinearLayout>
+
+
+        <TableLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:stretchColumns="0,1,2,3">
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:layout_marginBottom="17dp">
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="#00ff0000"
+                    android:drawableTop="@drawable/ic_baseline_notifications_none_24"
+                    android:drawableTint="#151515"
+                    android:padding="0dp"
+                    android:text="알림함"
+                    android:textColor="#151515"
+                    android:textSize="10dp" />
+
+                <Button
+                    android:padding="0dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="#00ff0000"
+                    android:drawableTop="@drawable/ic_baseline_star_24"
+                    android:drawableTint="#151515"
+                    android:text="평가 게시판"
+                    android:textColor="#151515"
+                    android:textSize="10dp" />
+
+                <Button
+                    android:padding="0dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="#00ff0000"
+                    android:drawableTop="@drawable/ic_baseline_access_alarms_24"
+                    android:drawableTint="#151515"
+                    android:text="리마인더"
+                    android:textColor="#151515"
+                    android:textSize="10dp" />
+
+                <Button
+                    android:padding="0dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="#00ff0000"
+                    android:drawableTop="@drawable/ic_baseline_settings_24"
+                    android:drawableTint="#151515"
+                    android:text="설정"
+                    android:textColor="#151515"
+                    android:textSize="10dp" />
+
+            </TableRow>
+
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:layout_marginBottom="17dp">
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_column="0"
+                    android:background="#00ff0000"
+                    android:drawableTop="@drawable/ic_baseline_headset_mic_24"
+                    android:drawableTint="#151515"
+                    android:padding="0dp"
+                    android:text="공지사항"
+                    android:textColor="#151515"
+                    android:textSize="10dp" />
+
+                <Button
+                    android:layout_column="1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:background="#00ff0000"
+                    android:drawableTop="@drawable/ic_baseline_view_carousel_24"
+                    android:drawableTint="#151515"
+                    android:padding="0dp"
+                    android:text="카드 목록"
+                    android:textColor="#151515"
+                    android:textSize="10dp" />
+
+
+                <!--                <Button-->
+                <!--                    android:layout_width="wrap_content"-->
+                <!--                    android:layout_height="wrap_content"-->
+                <!--                    android:layout_marginLeft="16dp"-->
+                <!--                    android:layout_marginRight="16dp"-->
+                <!--                    android:layout_weight="1"-->
+                <!--                    android:background="#fffff"-->
+                <!--                    android:drawableTop="@drawable/ic_baseline_notifications_none_24"-->
+                <!--                    android:drawableTint="#151515"-->
+                <!--                    android:paddingLeft="16dp"-->
+                <!--                    android:paddingTop="8dp"-->
+                <!--                    android:paddingRight="16dp"-->
+                <!--                    android:paddingBottom="5dp"-->
+                <!--                    android:text="Button"-->
+                <!--                    android:textColor="#151515"-->
+                <!--                    android:textSize="10dp" />-->
+
+                <!--                <Button-->
+                <!--                    android:layout_width="wrap_content"-->
+                <!--                    android:layout_height="wrap_content"-->
+                <!--                    android:layout_marginLeft="16dp"-->
+                <!--                    android:layout_marginRight="16dp"-->
+                <!--                    android:layout_weight="1"-->
+                <!--                    android:background="#fffff"-->
+                <!--                    android:drawableTop="@drawable/ic_baseline_notifications_none_24"-->
+                <!--                    android:drawableTint="#151515"-->
+                <!--                    android:paddingLeft="16dp"-->
+                <!--                    android:paddingTop="8dp"-->
+                <!--                    android:paddingRight="16dp"-->
+                <!--                    android:paddingBottom="5dp"-->
+                <!--                    android:text="Button"-->
+                <!--                    android:textColor="#151515"-->
+                <!--                    android:textSize="10dp" />-->
+            </TableRow>
+        </TableLayout>
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_weight="0"
+        android:background="@drawable/bottom"
+        android:orientation="horizontal">
+
+
+        <ImageView
+            android:id="@+id/bottom_home"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:padding="8dp"
+            android:src="@drawable/ic_outline_home_24" />
+
+        <ImageView
+            android:id="@+id/bottom_diary"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:padding="8dp"
+            android:src="@drawable/ic_outline_class_24" />
+
+        <ImageView
+            android:id="@+id/bottom_qna"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:padding="8dp"
+            android:src="@drawable/ic_outline_lightbulb_24" />
+
+        <ImageView
+            android:id="@+id/bottom_setting"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:padding="8dp"
+            android:src="@drawable/ic_baseline_more_horiz_24"
+            app:tint="#1c313a" />
+
+
+    </LinearLayout>
+
+</LinearLayout>
