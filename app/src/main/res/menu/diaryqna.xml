@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <!--
     showAsAction 메뉴는 안드로이드 SDK 에 포함된 속성이 아니라
     외부 라이브러리(appcompat-v7)에 포함된 속성이어서 android: 접두어가 아닌 app: 접두어를 붙인다.
@@ -10,14 +10,16 @@
     withText (메뉴의 아이콘과 텍스트를 같이 표시)가 있다.
     -->
 
-    <item android:id="@+id/menu_search"
-        android:title="검색"
+    <item
+        android:id="@+id/menu_search"
         android:icon="@drawable/ic_baseline_search_24"
-        app:showAsAction="always|withText"
-        app:actionLayout="@layout/menu_search"/>
+        android:title="검색"
+        app:actionLayout="@layout/menu_search"
+        app:actionViewClass="androidx.appcompat.widget.SearchView"
+        app:showAsAction="ifRoom|collapseActionView" />
 
-<!--    <item android:id="@+id/menu_settings"-->
-<!--        android:title="설정"-->
-<!--        android:icon="@drawable/ic_baseline_settings_24"-->
-<!--        app:showAsAction="always" />-->
+    <!--    <item android:id="@+id/menu_settings"-->
+    <!--        android:title="설정"-->
+    <!--        android:icon="@drawable/ic_baseline_settings_24"-->
+    <!--        app:showAsAction="always" />-->
 </menu>

@@ -94,8 +94,15 @@ public class HistoryDiary extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.diaryqna, menu);
+
+//        MenuItem menuItem = menu.findItem(R.id.menu_search);
+//        return super.onCreateOptionsMenu(menu);
+
+
         return true;
     }
+
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
