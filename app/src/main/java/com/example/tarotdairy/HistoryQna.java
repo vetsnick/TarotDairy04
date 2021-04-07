@@ -1,15 +1,23 @@
 package com.example.tarotdairy;
 
 import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
 
 public class HistoryQna extends AppCompatActivity {
 
@@ -20,6 +28,7 @@ public class HistoryQna extends AppCompatActivity {
     ImageView btn2;
     ImageView btn3;
     ImageView btn4;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,6 +78,15 @@ public class HistoryQna extends AppCompatActivity {
                 finish();
             }
         });
+
+
+        FloatingActionButton fab = findViewById(R.id.addqna);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(HistoryQna.this, "질문 기능 추가", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
 
@@ -91,16 +109,14 @@ public class HistoryQna extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.diaryqna, menu);
-
 //        MenuItem menuItem = menu.findItem(R.id.menu_search);
 //        return super.onCreateOptionsMenu(menu);
-
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch(item.getItemId()){
+        switch (item.getItemId()) {
             case R.id.menu_search:
                 break;
             default:

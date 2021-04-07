@@ -1,15 +1,26 @@
 package com.example.tarotdairy;
 
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.app.Dialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -17,6 +28,7 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.DialogFragment;
 
 import java.text.DateFormat;
@@ -41,9 +53,13 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
     ImageButton send;
 
     ImageView card;
-    Random rnd; //랜덤 객체 생성
 
-    RatingBar ratingBar;
+    RatingBar ratingbar;
+    LinearLayout ll;
+
+
+    int[] img = {R.drawable.carda, R.drawable.cardb, R.drawable.cardc, R.drawable.cardd, R.drawable.carde, R.drawable.cardf, R.drawable.cardg, R.drawable.cardh, R.drawable.cardi, R.drawable.cardj, R.drawable.cardk, R.drawable.cardl, R.drawable.cardm, R.drawable.cardn, R.drawable.cardo, R.drawable.cardp, R.drawable.cardq, R.drawable.cardr, R.drawable.cards, R.drawable.cardt, R.drawable.cardu, R.drawable.cardv};
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +67,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
         ActionBar actionBar = getSupportActionBar();
         actionBar.setTitle("오늘의 카드");
         setContentView(R.layout.activity_main);
+
 
 
         btn1 = findViewById(R.id.bottom_home);
@@ -61,34 +78,14 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
         gallery = findViewById(R.id.gallery);
         send = findViewById(R.id.send);
 
-
         card = findViewById(R.id.todayscard);
-//        이미지뷰 클릭 시, 이미지가 랜덤으로 생성
-//        Drawable drawable = getResources().getDrawable(R.drawable.galaxy);
-//        card.setImageDrawable(drawable);
 
-        rnd = new Random(); //랜덤클래스로부터 랜덤 값 받아오는 변수 작성.
+        ratingbar = findViewById(R.id.mainrating);
+        ll = findViewById(R.id.mainratingtouch);
 
-//        이미지뷰에 set 되어있는 데이터가 없으면 랜덤으로 카드가 나오고 저장이 되고
-//        있으면 해당  set 되어있는 이미지의 설명 칸으로 이동
-        card.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ImageView imageView = (ImageView) findViewById(v.getId());
-                int num = rnd.nextInt(21);
-                Log.v("클릭", num + ""); //버튼을 누르면 로그창에 0부터 21까지 랜덤값이 나타난다 ㅇㅇ 확인
-                Toast.makeText(MainActivity.this, num + "번 째 카드가 나옴\n(전에 뽑은 데이터 onCreate 때 덮었으면 else)", Toast.LENGTH_SHORT).show();
-//                이제 생성된 랜덤 번호에 따라 이미지 삽입해야됨
 
-//                if( == R.drawable.galaxy){
-//
-//                }
-//                else {
-//                    return;
-//                }
 
-            }
-        });
+
 
 
         btn1.setOnClickListener(new View.OnClickListener() {
@@ -128,35 +125,46 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
             }
         });
 
+        ll.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                final RatingBar dlgrating = new RatingBar(MainActivity.this);
+
+                AlertDialog.Builder dlg = new AlertDialog.Builder(MainActivity.this);
+                dlg.setTitle("별점 입력");
+                dlgrating.setNumStars(5);
+                dlgrating.setStepSize(0.5f);
+                dlg.setView(dlgrating);
+                dlg.setPositiveButton("저장", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        ratingbar.setRating(dlgrating.getRating());
+                    }
+                });
+                dlg.show();
+            }
+        });
 
         gallery.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(MainActivity.this, "갤러리리리리리", Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this, "갤러리", Toast.LENGTH_SHORT).show();
             }
         });
 
         send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(MainActivity.this, "등로로로로록", Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this, "등록", Toast.LENGTH_SHORT).show();
             }
         });
 
-//        ratingBar.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                showCommentWriteActivity();
-//            }
-//        });
-
-
-
 
         Calendar c = Calendar.getInstance();
-        int year = c.get(Calendar.YEAR);
-        int month = c.get(Calendar.MONTH);
-        int day = c.get(Calendar.DAY_OF_MONTH);
+//        int year = c.get(Calendar.YEAR);
+//        int month = c.get(Calendar.MONTH);
+//        int day = c.get(Calendar.DAY_OF_MONTH);
 
 
 //        datepicker
@@ -171,10 +179,24 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
             public void onClick(View v) {
                 DialogFragment datePicker = new DatePickerFragment();
                 datePicker.show(getSupportFragmentManager(), "date picker");
-
             }
         });
 
+
+        card.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                cardPicker();
+            }
+        });
+
+    }
+
+    private void cardPicker() {
+        Random ram = new Random();
+        int num = ram.nextInt(img.length);
+        card.setImageResource(img[num]);
+        Toast.makeText(MainActivity.this, num + "번 째 카드가 나옴\n(생성된 파일 & 제한 추가 예정)", Toast.LENGTH_SHORT).show();
     }
 
 
@@ -185,6 +207,8 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
         c.set(Calendar.MONTH, month);
         c.set(Calendar.DAY_OF_MONTH, dayOfMonth);
         String currentDateString = DateFormat.getDateInstance(DateFormat.FULL).format(c.getTime());
+
+
 
         TextView textView = (TextView) findViewById(R.id.maindate);
         textView.setText(currentDateString);
@@ -214,31 +238,32 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
     }
 
 
-//    // 자동 호출되는 메서드로,
-//    // R.menu.menu_main 을 인플레이션하여 객체로 만든 후 Menu 객체에 설정한다.
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        getMenuInflater().inflate(R.menu.mainset, menu);
-//        return true;
-//    }
-//
-//    // 메뉴 선택 시, onOptionsItemSelected 메소드가 호출된다.
-//    // 이 때 MenuItem 객체를 파라미터로 전달받게 되며, 어떤 메뉴를 선택했는지를 id로 구분하여 처리할 수 있다.
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//        switch (item.getItemId()) {
-//            case R.id.menu_settings:
+    // 자동 호출되는 메서드로,
+    // R.menu.menu_main 을 인플레이션하여 객체로 만든 후 Menu 객체에 설정한다.
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.mainset, menu);
+        return true;
+    }
+
+    // 메뉴 선택 시, onOptionsItemSelected 메소드가 호출된다.
+    // 이 때 MenuItem 객체를 파라미터로 전달받게 되며, 어떤 메뉴를 선택했는지를 id로 구분하여 처리할 수 있다.
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu_settings:
+
+                Intent intent = new Intent(MainActivity.this, MySettings.class);
+                startActivity(intent);
+
 //                Toast.makeText(getApplicationContext(), "설정 메뉴", Toast.LENGTH_SHORT).show();
-//                break;
-//            default:
-//                break;
-//        }
-//
-//        return super.onOptionsItemSelected(item);
-//    }
+                break;
+            default:
+                break;
+        }
 
-
-
+        return super.onOptionsItemSelected(item);
+    }
 
 
 }

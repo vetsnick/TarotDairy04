@@ -1,19 +1,29 @@
 package com.example.tarotdairy;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.Window;
 
-public class Remind extends AppCompatActivity {
+public class MySettings extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_my_settings);
+        // 액션바 뒤로가기 버튼
         ActionBar actionBar = getSupportActionBar();
-        actionBar.setTitle("리마인더");
-        setContentView(R.layout.activity_remind);
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        // 액션바 제목 변경
+        getSupportActionBar().setTitle("설정");
+
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.settings_container, new MySettingsFragment())
+                .commit();
     }
 
 

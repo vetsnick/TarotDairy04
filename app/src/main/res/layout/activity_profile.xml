@@ -5,17 +5,56 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".Register">
+    tools:context=".Profile_useless">
+
+
+    <LinearLayout
+        android:layout_marginBottom="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="92dp"
+        android:gravity="center">
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/myCircleImageView"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:layout_gravity="center"
+                android:src="#d4d4d4" />
+
+            <TextView
+                android:id="@+id/cmll_completed_per"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@id/myCircleImageView"
+                android:layout_alignLeft="@id/myCircleImageView"
+                android:layout_alignRight="@id/myCircleImageView"
+                android:layout_alignTop="@id/myCircleImageView"
+                android:layout_gravity="center"
+                android:gravity="bottom|center"
+                android:padding="20dp"
+                android:textStyle="normal"
+                android:textColor="#FFFFFF"
+                android:text="사진 변경"
+                android:textSize="23dp"/>
+        </RelativeLayout>
+
+
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="333dp"
         android:layout_height="56dp"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="92dp"
+        android:layout_marginTop="15dp"
         android:background="@drawable/loginbubble">
 
         <EditText
-            android:id="@+id/register_nick"
+            android:id="@+id/profile_nick"
             android:layout_width="wrap_content"
             android:layout_height="56dp"
             android:layout_weight="1"
@@ -23,12 +62,11 @@
             android:drawableLeft="@drawable/ic_baseline_drive_file_rename_outline_24"
             android:gravity="center_vertical"
             android:hint="닉네임"
-            android:maxLength="12"
+            android:maxLength="8"
             android:paddingStart="15dp"
             android:singleLine="true" />
 
         <Button
-            android:id="@+id/checknick"
             android:layout_width="80dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -40,44 +78,9 @@
 
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="333dp"
-        android:layout_height="56dp"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="16dp"
-        android:background="@drawable/loginbubble"
-        android:gravity="center_vertical"
-        android:hint="아이디">
 
-        <EditText
-            android:id="@+id/register_id"
-            android:paddingStart="15dp"
-            android:layout_width="wrap_content"
-            android:layout_height="56dp"
-            android:layout_weight="1"
-            android:background="@null"
-            android:drawableLeft="@drawable/ic_baseline_person_24"
-            android:gravity="center_vertical"
-            android:hint="아이디"
-            android:maxLength="12"
-            android:maxLines="1"
-            android:singleLine="true" />
-
-        <Button
-            android:id="@+id/checkid"
-            android:layout_width="80dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginRight="10dp"
-            android:layout_weight="0"
-            android:text="중복 확인"
-            android:textColor="@color/white"
-            android:textSize="12dp" />
-
-    </LinearLayout>
     <!--        ems-->
     <EditText
-        android:id="@+id/register_pw1"
         android:layout_width="333dp"
         android:layout_height="56dp"
         android:layout_gravity="center_horizontal"
@@ -85,7 +88,7 @@
         android:background="@drawable/loginbubble"
         android:drawableLeft="@drawable/ic_baseline_lock_24"
         android:gravity="center_vertical"
-        android:hint="비밀번호"
+        android:hint="비밀번호 재설정"
         android:inputType="textPassword"
         android:maxLength="12"
         android:maxLines="1"
@@ -93,8 +96,8 @@
         android:singleLine="true" />
 
     <EditText
-        android:id="@+id/register_pw2"
         android:layout_width="333dp"
+
         android:layout_height="56dp"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="16dp"
@@ -109,7 +112,6 @@
         android:singleLine="true" />
 
     <EditText
-        android:id="@+id/register_email"
         android:layout_width="333dp"
         android:layout_height="56dp"
         android:layout_gravity="center_horizontal"
@@ -131,7 +133,7 @@
         android:paddingBottom="13dp">
 
         <TextView
-            android:id="@+id/register_register"
+            android:id="@+id/profile_change"
             android:layout_width="230dp"
             android:layout_height="50dp"
             android:layout_gravity="center"
@@ -139,7 +141,7 @@
             android:background="@drawable/login"
             android:fontFamily="@font/basic"
             android:gravity="center"
-            android:text="완료"
+            android:text="변경하기"
             android:textColor="@color/white"
             android:textSize="25dp" />
 
@@ -152,5 +154,6 @@
 
 
     </LinearLayout>
+
 
 </LinearLayout>

@@ -9,7 +9,13 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
+import java.text.DateFormat;
+import java.util.Calendar;
 
 public class HistoryDiary extends AppCompatActivity {
 
@@ -71,6 +77,18 @@ public class HistoryDiary extends AppCompatActivity {
                 finish();
             }
         });
+
+
+
+
+
+//        FloatingActionButton fab = findViewById(R.id.adddiary);
+//        fab.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Toast.makeText(HistoryDiary.this, "다이어리 추가", Toast.LENGTH_SHORT).show();
+//            }
+//        });
 
     }
 
