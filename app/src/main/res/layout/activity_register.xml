@@ -117,7 +117,7 @@
         android:background="@drawable/loginbubble"
         android:drawableLeft="@drawable/ic_baseline_mail_24"
         android:gravity="center_vertical"
-        android:hint="이메일"
+        android:hint="이메일(선택)"
         android:inputType="textEmailAddress"
         android:maxLength="30"
         android:maxLines="1"

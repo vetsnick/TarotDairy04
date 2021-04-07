@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".MainActivity">
+    tools:context=".MainActivity"
+    android:id="@+id/ll">
 
     <!--액션바 좌 알림, 우 설정-->
 
@@ -137,6 +138,7 @@
                         <!--                사용자가 추가하는거라 따로 글자 수 제한 안두려다 2000자로 넉넉히 둠-->
 
                         <EditText
+                            android:id="@+id/main_comment"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"

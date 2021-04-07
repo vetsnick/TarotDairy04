@@ -49,18 +49,39 @@ public class Register extends AppCompatActivity {
                     return;
                 }
 
+                if ( nick.getText().toString().length() < 2 || nick.getText().toString().length() > 12) {
+                    Toast.makeText(Register.this, "닉네임은 최소 2글자, 최대 12글자입니다.", Toast.LENGTH_SHORT).show();
+                    nick.requestFocus();
+                    return;
+                }
+
                 if ( id.getText().toString().length() == 0 ) {
                     Toast.makeText(Register.this, "아이디를 입력하세요", Toast.LENGTH_SHORT).show();
                     id.requestFocus();
                     return;
                 }
+
+                if ( id.getText().toString().length() < 5 ||  id.getText().toString().length() > 20) {
+                    Toast.makeText(Register.this, "아이디는 최소 5글자, 최대 20글자입니다.", Toast.LENGTH_SHORT).show();
+                    id.requestFocus();
+                    return;
+                }
+
+
                 if ( pw1.getText().toString().length() == 0 ) {
                     Toast.makeText(Register.this, "비밀번호를 설정해주세요", Toast.LENGTH_SHORT).show();
                     pw1.requestFocus();
                     return;
                 }
+
+                if ( pw1.getText().toString().length() < 5 || pw1.getText().toString().length() > 20 ) {
+                    Toast.makeText(Register.this, "비밀번호는 최소 5글자, 최대 20글자입니다.", Toast.LENGTH_SHORT).show();
+                    pw1.requestFocus();
+                    return;
+                }
+                
                 if ( pw2.getText().toString().length() == 0 ) {
-                    Toast.makeText(Register.this, "비밀번호 확인을 해주세요", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Register.this, "비밀번호를 확인해주세요", Toast.LENGTH_SHORT).show();
                     pw2.requestFocus();
                     return;
                 }

@@ -8,6 +8,7 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -24,13 +25,15 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class My extends AppCompatActivity {
 
     private final int PICK_IMAGE = 1111;
-
+    private final int REQUEST_IMAGE_CAPTURE = 111;
     private int STORAGE_PERMISSION_CODE = 1;
 
     private long backKeyPressedTime = 0;
@@ -173,24 +176,7 @@ public class My extends AppCompatActivity {
         circle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-
-
-
-
-
-
-
-
-
-
-                if (ContextCompat.checkSelfPermission(My.this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-
-                    fromGallery();
-
-                } else {
-                    requestStoragePermission();
-                }
+                CreateListDialog();
             }
         });
 
@@ -203,6 +189,46 @@ public class My extends AppCompatActivity {
             }
         });
     }
+
+    public void CreateListDialog() {
+        final List<String> ListItems = new ArrayList<>();
+        ListItems.add("카메라");
+        ListItems.add("갤러리");
+
+        final String[] items = ListItems.toArray(new String[ListItems.size()]);
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("");
+        builder.setItems(items, (dialog, pos) -> {
+            String selectedText = items[pos];
+            if (selectedText.equals("카메라")) {
+                // "리스트 다이얼로그 메뉴-1번" 클릭 시 동작할 코드를 작성하면 됩니다.
+                if (ContextCompat.checkSelfPermission(My.this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
+                    fromCamera();
+                } else {
+                    requestCameraPermission();
+                }
+
+            } else if (selectedText.equals("갤러리")) {
+                if (ContextCompat.checkSelfPermission(My.this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+
+                    fromGallery();
+
+                } else {
+                    requestStoragePermission();
+                }
+            }
+        });
+        builder.show();
+    }
+
+    private void fromCamera() {
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+        }
+    }
+
 
     private void fromGallery() {
         Intent intent = new Intent(Intent.ACTION_PICK);
@@ -242,8 +268,8 @@ public class My extends AppCompatActivity {
         if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.READ_EXTERNAL_STORAGE)) {
 
             new AlertDialog.Builder(this)
-                    .setTitle("Permission needed")
-                    .setMessage("This permission is needed because of this and that")
+                    .setTitle("권한 요청")
+                    .setMessage("TarotDiary의 다음 작업을 허용하시겠습니까? 기기 사진, 미디어, 파일 액세스")
                     .setPositiveButton("ok", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
@@ -263,14 +289,40 @@ public class My extends AppCompatActivity {
         }
     }
 
+
+    private void requestCameraPermission() {
+        if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.READ_EXTERNAL_STORAGE)) {
+
+            new AlertDialog.Builder(this)
+                    .setTitle("Permission needed")
+                    .setMessage("TarotDiary의 다음 작업을 허용하시겠습니까? 사진 및 동영상 촬영")
+                    .setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            ActivityCompat.requestPermissions(My.this, new String[]{Manifest.permission.CAMERA}, STORAGE_PERMISSION_CODE);
+                        }
+                    })
+                    .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    })
+                    .create().show();
+
+        } else {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA}, STORAGE_PERMISSION_CODE);
+        }
+    }
+
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
                                            @NonNull int[] grantResults) {
         if (requestCode == STORAGE_PERMISSION_CODE) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                Toast.makeText(this, "Permission Granted", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "권한 부여 완료", Toast.LENGTH_SHORT).show();
             } else {
-                Toast.makeText(this, "Permission Denied", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "권한 거절", Toast.LENGTH_SHORT).show();
             }
         }
 
@@ -342,10 +394,20 @@ public class My extends AppCompatActivity {
                 } catch (Exception e) {
 
                 }
-            } else if (resultCode == RESULT_CANCELED) {
-                Toast.makeText(this, "사진 선택 취소", Toast.LENGTH_LONG).show();
             }
+
+        }
+        if (requestCode == REQUEST_IMAGE_CAPTURE) {
+            try {
+                Bundle extras = data.getExtras();
+                Bitmap imageBitmap = (Bitmap) extras.get("data");
+                ((CircleImageView) findViewById(R.id.my_circle)).setImageBitmap(imageBitmap);
+
+            } catch (Exception e) {
+
+            }
+        } else if (resultCode == RESULT_CANCELED) {
+            Toast.makeText(this, "사진 선택 취소", Toast.LENGTH_LONG).show();
         }
     }
-
 }
