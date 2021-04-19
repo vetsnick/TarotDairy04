@@ -9,13 +9,14 @@
     ifRoom (표시할 수 있는 공간이 존재하면 표시),
     withText (메뉴의 아이콘과 텍스트를 같이 표시)가 있다.
     -->
+<!--    android:fitsSystemWindows="true"-->
+<!--    app:actionLayout="@layout/menu_search"-->
 
     <item
         android:id="@+id/menu_search"
         android:icon="@drawable/ic_baseline_search_24"
         android:title="검색"
-        app:actionLayout="@layout/menu_search"
-        app:actionViewClass="androidx.appcompat.widget.SearchView"
+        app:actionViewClass="android.widget.SearchView"
         app:showAsAction="ifRoom|collapseActionView" />
 
     <!--    <item android:id="@+id/menu_settings"-->

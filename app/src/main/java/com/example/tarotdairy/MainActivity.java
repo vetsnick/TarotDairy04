@@ -5,14 +5,15 @@ import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -28,6 +29,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.DialogFragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import java.text.DateFormat;
 import java.util.ArrayList;
@@ -57,13 +60,24 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
 
     ImageView card;
 
+    TextView btn;
+
+    TextView keyword;
+
     RatingBar ratingbar;
     LinearLayout ll;
 
     EditText comment;
 
 
+    private ArrayList<Comment> mArrayList;
+    private CommentAdapter mAdapter;
+    private int count = -1;
+
     int[] img = {R.drawable.carda, R.drawable.cardb, R.drawable.cardc, R.drawable.cardd, R.drawable.carde, R.drawable.cardf, R.drawable.cardg, R.drawable.cardh, R.drawable.cardi, R.drawable.cardj, R.drawable.cardk, R.drawable.cardl, R.drawable.cardm, R.drawable.cardn, R.drawable.cardo, R.drawable.cardp, R.drawable.cardq, R.drawable.cardr, R.drawable.cards, R.drawable.cardt, R.drawable.cardu, R.drawable.cardv};
+    String[] cardname = {"0: 광대", "1: 마술사", "2: 고위 여사제", "3: 여황제", "4: 남황제", "5: 교황", "6: 연인들", "7: 전차", "8: 힘", "9:은둔자", "10: 운명의 수레바퀴", "11: 정의", "12: 매달린 사람", "13: 죽음", "14: 절제", "15: 악마", "16: 타워", "17: 별", "18: 달", "19: 해", "20: 심판", "21: 세계"};
+    String[] hintkeyword = {"모험, 시작, 무지, 자유, 순수", "창조, 영감, 능력", "지식, 총명, 순결", "풍요, 모성", "권위, 부성, 책임", "교육, 종교, 전통, 관대", "사랑, 조화, 관계", "전진, 성공, 의지", "힘, 용기, 설득", "탐색, 차분한, 자기성찰", "행운, 업보, 전환점", "균형, 정당, 진실", "자기희생, 인내, 새로운 관점", "이별, 새로운 시작", "균형, 절제, 조화", "사심, 타락, 성욕", "파괴, 급격한 변화", "희망, 믿음, 갱신", "불안, 환상, 직관", "긍정, 성공, 활력", "부활, 판단, 용서", "완성, 통합, 성취"};
+    String[] yesno = {"YES", "YES", "글쎄요", "YES", "YES", "Maybe", "YES", "YES", "YES", "YES", "YES", "글쎄요", "Maybe", "NO", "YES", "NO", "NO", "NO", "NO", "YES", "YES", "YES"};
 
 
     @Override
@@ -72,6 +86,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
         ActionBar actionBar = getSupportActionBar();
         actionBar.setTitle("오늘의 카드");
         setContentView(R.layout.activity_main);
+
 
 
         comment = findViewById(R.id.main_comment);
@@ -89,8 +104,57 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
         ratingbar = findViewById(R.id.mainrating);
         ll = findViewById(R.id.mainratingtouch);
 
+        keyword = findViewById(R.id.main_keyword);
+
+        btn = (TextView) findViewById(R.id.maindate);
+
+        ////////////////////////////////////
+        RecyclerView mRecyclerView = (RecyclerView) findViewById(R.id.main_recyclerView);
+        mRecyclerView.setHasFixedSize(true);
+
+        LinearLayoutManager mLinearLayoutManager = new LinearLayoutManager(this);
 
 
+        mRecyclerView.setLayoutManager(mLinearLayoutManager);
+
+        mArrayList = new ArrayList<>();
+        mAdapter = new CommentAdapter(this, mArrayList);
+        mRecyclerView.setAdapter(mAdapter);
+
+        mRecyclerView.setNestedScrollingEnabled(false);
+
+// 아래는 구분선 주는거
+//        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(mRecyclerView.getContext(),
+//                mLinearLayoutManager.getOrientation());
+//        mRecyclerView.addItemDecoration(dividerItemDecoration);
+        ////////////////////////////////////
+
+
+        //나중에 스플래쉬에 넣을 일이 생기면 최초 실행을 넣어주도록 하자
+        SharedPreferences sharedPreference = getSharedPreferences("cardsData", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreference.edit();
+
+        //최초 실행 여부 확인 (최초 실행일 경우, 카드 정보들을 입력해준다)
+        boolean first = sharedPreference.getBoolean("isFirst", false);
+
+        if (first == false) {
+
+            //하단은 카드들의 1.키워드, 2.yes/no 저장해주는 과정
+            int a;
+            for (int i = 0; i < 22; i++) {
+                a = img[i];
+                editor.putString(a + "cardname", cardname[i]);
+                editor.putString(a + "keyword", hintkeyword[i]);
+                editor.putString(a + "yesno", yesno[i]);
+                System.out.println(i + "번 실행");
+                editor.commit();
+            }
+
+            editor.putBoolean("isFirst", true);
+            editor.commit();
+        } else {
+            Log.d("Is first Time?", "not first");
+        }
 
 
         btn1.setOnClickListener(new View.OnClickListener() {
@@ -163,21 +227,39 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
             }
         });
 
+
         send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
 
+                //키보드 내리기
+//                InputMethodManager mInputMethodManager = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+//                mInputMethodManager.hideSoftInputFromWindow(comment.getWindowToken(), 0);
+
                 // 아이디 또는 비밀번호가 일치하지 않습니다 사용 예정
-                if ( comment.getText().toString().length() == 0 ) {
+                if (comment.getText().toString().length() == 0) {
                     Toast.makeText(MainActivity.this, "작성된 코멘트가 없습니다.", Toast.LENGTH_SHORT).show();
                     comment.requestFocus();
                     return;
+                } else {
+
+                    String com = comment.getText().toString();
+
+                    Comment comment = new Comment(com);
+
+                    mArrayList.add(0, comment); //RecyclerView의 첫 줄에 삽입
+//                        mArrayList.add(data); // RecyclerView의 마지막 줄에 삽입
+
+//                        mAdapter.notifyDataSetChanged();
+                    mAdapter.notifyItemInserted(0);
+
+                    mRecyclerView.scrollToPosition(0);
+
                 }
-                else {
-                    Toast.makeText(MainActivity.this, "등록", Toast.LENGTH_SHORT).show();
-                    comment.setText("");
-                }
+
+                comment.setText("");
+                mRecyclerView.scrollToPosition(0);
             }
         });
 
@@ -189,8 +271,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
 
 
 //        datepicker
-        TextView btn = (TextView) findViewById(R.id.maindate);
-        String currentDateString = DateFormat.getDateInstance(DateFormat.FULL).format(c.getTime());
+        String currentDateString = DateFormat.getDateInstance(DateFormat.LONG).format(c.getTime());
         TextView textView = (TextView) findViewById(R.id.maindate);
         textView.setText(currentDateString);
 
@@ -210,6 +291,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
                 cardPicker();
             }
         });
+
 
     }
 
@@ -270,10 +352,19 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
 
 
     private void cardPicker() {
+        //★아래는 로딩 다이얼로그 (나중에 카드 정보 액티비티 띄울 때 사용하자)
+//        ProgressDialog oDialog = new ProgressDialog(this,
+//                android.R.style.Theme_DeviceDefault_Light_Dialog);
+//        oDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+//        oDialog.setMessage("잠시만 기다려 주세요.");
+//
+//        oDialog.show();
+
         Random ram = new Random();
         int num = ram.nextInt(img.length);
         card.setImageResource(img[num]);
-        Toast.makeText(MainActivity.this, num + "번 째 카드가 나옴\n(생성된 파일 & 제한 추가 예정)", Toast.LENGTH_SHORT).show();
+        keyword.setText("키워드: " + num + "번 카드 키워드 작성 예정");
+        Toast.makeText(MainActivity.this, "다시 안뽑히게 설정하기 (DB)", Toast.LENGTH_SHORT).show();
     }
 
 
@@ -283,9 +374,8 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
         c.set(Calendar.YEAR, year);
         c.set(Calendar.MONTH, month);
         c.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+
         String currentDateString = DateFormat.getDateInstance(DateFormat.FULL).format(c.getTime());
-
-
 
         TextView textView = (TextView) findViewById(R.id.maindate);
         textView.setText(currentDateString);
@@ -461,4 +551,6 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
         }
 
     }
+
+
 }

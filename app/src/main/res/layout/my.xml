@@ -17,6 +17,7 @@
         android:orientation="vertical">
 
         <LinearLayout
+            android:id="@+id/my_profilecard"
             android:layout_marginTop="30dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -61,7 +62,7 @@
                         android:id="@+id/my_activity"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="내 댓글?"
+                        android:text="쪽지"
                         android:textColor="@color/white" />
 
                     <Button
@@ -80,6 +81,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/my_logincard"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
@@ -128,13 +130,15 @@
                 android:layout_marginBottom="17dp">
 
                 <Button
+                    android:id="@+id/inquiry"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_column="0"
                     android:background="#00ff0000"
-                    android:drawableTop="@drawable/ic_baseline_notifications_none_24"
+                    android:drawableTop="@drawable/ic_baseline_headset_mic_24"
                     android:drawableTint="#151515"
                     android:padding="0dp"
-                    android:text="알림함"
+                    android:text="1:1 문의"
                     android:textColor="#151515"
                     android:textSize="10dp" />
 
@@ -182,19 +186,19 @@
                 android:layout_marginBottom="17dp">
 
                 <Button
-                    android:id="@+id/inquiry"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_column="0"
                     android:background="#00ff0000"
-                    android:drawableTop="@drawable/ic_baseline_headset_mic_24"
+                    android:drawableTop="@drawable/ic_baseline_notifications_none_24"
                     android:drawableTint="#151515"
                     android:padding="0dp"
-                    android:text="1:1 문의"
+                    android:text="알림함"
                     android:textColor="#151515"
                     android:textSize="10dp" />
 
                 <Button
+                    android:id="@+id/my_tarotcards"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_column="1"
@@ -202,9 +206,10 @@
                     android:drawableTop="@drawable/ic_baseline_view_carousel_24"
                     android:drawableTint="#151515"
                     android:padding="0dp"
-                    android:text="카드 목록"
+                    android:text="78장"
                     android:textColor="#151515"
                     android:textSize="10dp" />
+
 
 
                 <!--                <Button-->
@@ -253,40 +258,108 @@
         android:background="@drawable/bottom"
         android:orientation="horizontal">
 
-
-        <ImageView
-            android:id="@+id/bottom_home"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
+            android:layout_gravity="center"
             android:layout_weight="1"
-            android:padding="8dp"
-            android:src="@drawable/ic_outline_home_24" />
+            android:orientation="vertical">
 
-        <ImageView
-            android:id="@+id/bottom_diary"
+            <ImageView
+                android:id="@+id/bottom_home"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_marginTop="5dp"
+                android:layout_weight="1"
+                android:src="@drawable/ic_outline_home_24" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginBottom="5dp"
+                android:layout_weight="0"
+                android:text="Home" />
+        </LinearLayout>
+
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
+            android:layout_gravity="center"
             android:layout_weight="1"
-            android:padding="8dp"
-            android:src="@drawable/ic_outline_class_24" />
+            android:orientation="vertical">
 
-        <ImageView
-            android:id="@+id/bottom_qna"
+            <ImageView
+                android:id="@+id/bottom_diary"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_marginTop="5dp"
+                android:layout_weight="1"
+                android:src="@drawable/ic_outline_class_24" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginBottom="5dp"
+                android:layout_weight="0"
+                android:text="Diary" />
+        </LinearLayout>
+
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
+            android:layout_gravity="center"
             android:layout_weight="1"
-            android:padding="8dp"
-            android:src="@drawable/ic_outline_lightbulb_24" />
+            android:orientation="vertical">
 
-        <ImageView
-            android:id="@+id/bottom_setting"
+            <ImageView
+                android:id="@+id/bottom_qna"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_marginTop="5dp"
+                android:layout_weight="1"
+                android:src="@drawable/ic_outline_lightbulb_24"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginBottom="5dp"
+                android:layout_weight="0"
+                android:text="QnA"
+                 />
+        </LinearLayout>
+
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
+            android:layout_gravity="center"
             android:layout_weight="1"
-            android:padding="8dp"
-            android:src="@drawable/ic_baseline_more_horiz_24"
-            app:tint="#1c313a" />
+            android:orientation="vertical">
 
+            <ImageView
+                android:id="@+id/bottom_setting"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_marginTop="5dp"
+                android:layout_weight="1"
+                android:src="@drawable/ic_baseline_more_horiz_24"
+                app:tint="#0B173B" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginBottom="5dp"
+                android:layout_weight="0"
+                android:text="My"
+                android:textColor="#0B173B"/>
+        </LinearLayout>
 
     </LinearLayout>
 

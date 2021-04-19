@@ -9,7 +9,10 @@
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
-    <uses-feature android:name="android.hardware.camera2" android:required="true"/>
+
+    <uses-feature
+        android:name="android.hardware.camera2"
+        android:required="true" />
 
     <application
         android:allowBackup="true"
@@ -18,19 +21,23 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.TarotDairy">
+        <activity android:name=".ResultDiary"></activity>
+        <activity android:name=".TarotCards78" />
+        <activity android:name=".ResultQna" />
         <activity android:name=".Inquiry" />
         <activity android:name=".Remind" />
         <activity android:name=".MySettings" />
-        <activity android:name=".RatingActivity" />
         <activity android:name=".Register" />
         <activity android:name=".Login" />
-        <activity android:name=".InfoQna" />
-        <activity android:name=".InfoDiary" />
-        <activity android:name=".InfoCard" />
+        <activity android:name=".ResultDiary" />
         <activity android:name=".My" />
-        <activity android:name=".HistoryQna" />
-        <activity android:name=".HistoryDiary" />
-
+        <activity
+            android:name=".HistoryQna"
+            android:configChanges="orientation|screenSize"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".HistoryDiary"
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".MainActivity"
             android:screenOrientation="portrait"

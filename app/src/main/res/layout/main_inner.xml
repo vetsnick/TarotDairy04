@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+
+
+    <TextView
+        android:id="@+id/maindate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="18dp"
+        android:layout_marginBottom="10dp"
+        android:fontFamily="@font/outline"
+        android:text="날짜 표시됨"
+        android:textSize="25dp" />
+    <!--    클릭 시 캘린더 표시, 캘린더에서 날짜 선택 가능-->
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:fontFamily="@font/basic"
+        android:text="오늘의 카드"
+        android:textSize="14dp" />
+
+    <ImageView
+        android:id="@+id/todayscard"
+        android:layout_width="180dp"
+        android:layout_height="270dp"
+        android:layout_gravity="center"
+        android:background="@drawable/galaxy" />
+    <!--    클릭 시, 1~78 중 랜덤 이미지 하나 등장-->
+    <!--    이미 뽑은 이력이 있으면, 뽑았던 사진 표시-->
+    <!--    카드명도 뜨게 만들기-->
+
+    <TextView
+        android:id="@+id/main_keyword"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="8dp"
+        android:fontFamily="@font/basic"
+        android:text="↑터치해서 오늘의 카드를 뽑아주세요↑" />
+    <!--    사진 선택되면 키워드로 변경 -->
+
+
+    <LinearLayout
+        android:id="@+id/mainratingtouch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center">
+
+        <RatingBar
+            android:id="@+id/mainrating"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:isIndicator="true"
+            android:stepSize="0.5" />
+        <!--            레이팅바 스타일... 읽기 전용-->
+    </LinearLayout>
+
+
+
+</LinearLayout>

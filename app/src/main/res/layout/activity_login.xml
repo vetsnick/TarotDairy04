@@ -1,76 +1,76 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="108dp"
-        android:layout_marginBottom="33dp"
-        android:text="Tarot Diary"
-        android:textSize="50dp" />
-
-
-    <EditText
-        android:id="@+id/login_id"
-        android:maxLength="12"
-        android:maxLines="1"
-        android:singleLine="true"
-        android:layout_width="300dp"
-        android:layout_height="56dp"
-        android:layout_gravity="center_horizontal"
-        android:background="@drawable/loginbubble"
-        android:drawableLeft="@drawable/ic_baseline_person_24"
-        android:gravity="center_vertical"
-        android:hint="ID"
-        android:paddingStart="15dp"/>
-    <!--        ems-->
-    <EditText
-        android:id="@+id/login_pw"
-        android:maxLines="1"
-        android:singleLine="true"
-        android:maxLength="12"
-        android:layout_width="300dp"
-        android:layout_height="56dp"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="16dp"
-        android:background="@drawable/loginbubble"
-        android:drawableLeft="@drawable/ic_baseline_lock_24"
-        android:gravity="center_vertical"
-        android:hint="PW"
-        android:inputType="textPassword"
-        android:paddingStart="15dp" />
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:paddingBottom="13dp">
 
         <TextView
-            android:id="@+id/login_login"
-            android:layout_width="230dp"
-            android:layout_height="50dp"
-            android:layout_gravity="center"
-            android:layout_marginTop="15dp"
-            android:background="@drawable/login"
-            android:fontFamily="@font/basic"
-            android:gravity="center"
-            android:text="로그인"
-            android:textColor="@color/white"
-            android:textSize="25dp" />
-
-        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center">
+            android:layout_gravity="center"
+            android:layout_marginTop="108dp"
+            android:layout_marginBottom="33dp"
+            android:text="Tarot Diary"
+            android:textSize="50dp" />
 
 
-<!--            <TextView-->
+        <EditText
+            android:id="@+id/login_id"
+            android:layout_width="300dp"
+            android:layout_height="56dp"
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/loginbubble"
+            android:drawableLeft="@drawable/ic_baseline_person_24"
+            android:gravity="center_vertical"
+            android:hint="ID"
+            android:maxLength="12"
+            android:maxLines="1"
+            android:paddingStart="15dp"
+            android:singleLine="true"/>
+        <!--        ems-->
+        <EditText
+            android:id="@+id/login_pw"
+            android:layout_width="300dp"
+            android:layout_height="56dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/loginbubble"
+            android:drawableLeft="@drawable/ic_baseline_lock_24"
+            android:gravity="center_vertical"
+            android:hint="PW"
+            android:inputType="textPassword"
+            android:maxLength="12"
+            android:maxLines="1"
+            android:paddingStart="15dp"
+            android:singleLine="true" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingBottom="13dp">
+
+            <TextView
+                android:id="@+id/login_login"
+                android:layout_width="230dp"
+                android:layout_height="50dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="15dp"
+                android:background="@drawable/login"
+                android:fontFamily="@font/basic"
+                android:gravity="center"
+                android:text="로그인"
+                android:textColor="@color/white"
+                android:textSize="25dp" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center">
+
+
+                <!--            <TextView-->
 <!--                android:layout_width="match_parent"-->
 <!--                android:layout_height="wrap_content"-->
 <!--                android:layout_gravity="center"-->
@@ -82,24 +82,24 @@
 <!--                android:textColor="#6E6E6E"-->
 <!--                android:textSize="15dp" />-->
 
-            <TextView
-                android:id="@+id/login_register"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="5dp"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:paddingBottom="10dp"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp"
-                android:text="회원가입"
-                android:textColor="#6E6E6E"
-                android:textSize="23dp" />
+                <TextView
+                    android:id="@+id/login_register"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="5dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:paddingBottom="10dp"
+                    android:text="회원가입"
+                    android:textColor="#6E6E6E"
+                    android:textSize="23dp" />
+            </LinearLayout>
+
+
         </LinearLayout>
-
-
-    </LinearLayout>
 
 
 </LinearLayout>

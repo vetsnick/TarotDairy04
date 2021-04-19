@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.Menu;
@@ -15,6 +16,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,6 +25,14 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -51,8 +61,13 @@ public class My extends AppCompatActivity {
     Button email;
     Button logout;
     Button activity;
+    Button tarotcards;
     CircleImageView circle;
     TextView nick;
+
+    LinearLayout profilecard;
+    LinearLayout logincard;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,11 +76,12 @@ public class My extends AppCompatActivity {
         actionBar.setTitle("MY");
         setContentView(R.layout.my);
 
-
         btn1 = findViewById(R.id.bottom_home);
         btn2 = findViewById(R.id.bottom_diary);
         btn3 = findViewById(R.id.bottom_qna);
         btn4 = findViewById(R.id.bottom_setting);
+
+        tarotcards = findViewById(R.id.my_tarotcards);
 
         reminder = findViewById(R.id.my_reminder);
         btnlogin = findViewById(R.id.my_login);
@@ -77,6 +93,19 @@ public class My extends AppCompatActivity {
 
         circle = findViewById(R.id.my_circle);
         nick = findViewById(R.id.my_nick);
+
+        profilecard = findViewById(R.id.my_profilecard);
+        logincard = findViewById(R.id.my_logincard);
+
+
+
+
+        if(SaveSharedPreference.getLoggedStatus(getApplicationContext())){
+                    logincard.setVisibility(View.GONE);
+        }else{
+                    profilecard.setVisibility(View.GONE);
+        }
+
 
 
         btn1.setOnClickListener(new View.OnClickListener() {
@@ -188,6 +217,14 @@ public class My extends AppCompatActivity {
 
             }
         });
+
+        tarotcards.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(My.this, TarotCards78.class);
+                startActivity(intent);
+            }
+        });
     }
 
     public void CreateListDialog() {
@@ -250,6 +287,16 @@ public class My extends AppCompatActivity {
             public void onClick(DialogInterface dialog, int which) {
                 Toast.makeText(My.this, "로그아웃 실행", Toast.LENGTH_SHORT).show();
 
+                //로그아웃
+                FirebaseAuth.getInstance().signOut();
+
+                //로그인 상태 false로 만들어버림
+                SaveSharedPreference.setLoggedIn(getApplicationContext(), false);
+
+                overridePendingTransition(0, 0);
+
+                finish();
+                startActivity(new Intent(My.this, My.class));
             }
         });
 
@@ -410,4 +457,6 @@ public class My extends AppCompatActivity {
             Toast.makeText(this, "사진 선택 취소", Toast.LENGTH_LONG).show();
         }
     }
+
+
 }

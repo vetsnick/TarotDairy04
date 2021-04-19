@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+
+    <LinearLayout
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:background="@drawable/comment"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:textSize="20dp"
+                android:id="@+id/item_qna_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginRight="8dp"
+                android:fontFamily="@font/basic"
+                android:text="2021.04.01 (목)" />
+
+
+            <TextView
+                android:maxLength="200"
+                android:ellipsize="end"
+                android:id="@+id/item_qna_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="5dp"
+                android:fontFamily="@font/basic"
+                android:maxLines="2"
+                android:text="질문 미리보기"
+                android:textSize="28dp" />
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/item_qna_card"
+            android:layout_margin="3dp"
+            android:layout_weight="0"
+            android:layout_width="75dp"
+            android:layout_height="110dp" />
+
+    </LinearLayout>
+
+
+</LinearLayout>

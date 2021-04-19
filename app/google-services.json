@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "275914657304",
+    "project_id": "tarot-9759f",
+    "storage_bucket": "tarot-9759f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:275914657304:android:b9b78733bbc78532ecfd6d",
+        "android_client_info": {
+          "package_name": "com.example.tarotdairy"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "275914657304-q2vnj5qevqg89rdqper76200na84as28.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDWCzaOeqWS_8hjNKLAQFpV6r8q1M02WoA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "275914657304-q2vnj5qevqg89rdqper76200na84as28.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
