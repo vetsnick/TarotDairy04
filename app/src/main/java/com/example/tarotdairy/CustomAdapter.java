@@ -26,7 +26,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomViewHolder> implements Filterable {
+public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomViewHolder>
+//        implements Filterable
+{
 
     private ArrayList<Question> mList;
     private ArrayList<Question> exampleListFull;
@@ -82,6 +84,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
 
 
 
+                        //수정 버튼 눌렀을 때...
                         final AlertDialog dialog = builder.create();
                         ButtonSubmit.setOnClickListener(new View.OnClickListener() {
                             public void onClick(View v) {
@@ -91,6 +94,24 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
 
                                 mList.set(getAdapterPosition(), que);
                                 notifyItemChanged(getAdapterPosition());
+
+                                SharedPreferences sharedPreferences = mContext.getSharedPreferences("mycontacts", 0);
+                                int maxId = sharedPreferences.getInt("maxID", 0);
+                                for (int i = 1; i <= maxId; i++) {
+//                                    String pretitle = sharedPreferences.getString("title" + i, "");
+                                    long pretime = sharedPreferences.getLong("time" + i, 0);
+                                    int precard = sharedPreferences.getInt("card"+i, 0);
+
+                                    if (pretime == timere) {
+                                            if (precard == cardre) {
+                                                SharedPreferences.Editor editor = sharedPreferences.edit();
+                                                editor.putString("title" + i, title);
+                                                editor.commit();
+                                            }
+                                        }
+                                    }
+
+
 
                                 dialog.dismiss();
                             }
@@ -183,7 +204,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
 
         long unixTime = current.getTimestamp();
         Date time = new Date(unixTime);
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd (E)", Locale.KOREA);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd hh:mm (E)", Locale.KOREA);
         String formattedTime = sdf.format(time);
 
 //        viewholder.title.setTextSize();
@@ -213,41 +234,40 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
     }
 
 
-    @Override
-    public Filter getFilter() {
-        return exampleFilter;
-    }
+//    @Override
+//    public Filter getFilter() {
+//        return exampleFilter;
+//    }
 
-    private Filter exampleFilter = new Filter() {
-        @Override
-        protected FilterResults performFiltering(CharSequence constraint) {
-            ArrayList<Question> filteredList = new ArrayList<>();
+//    private Filter exampleFilter = new Filter() {
+//        @Override
+//        protected FilterResults performFiltering(CharSequence constraint) {
+//            ArrayList<Question> filteredList = new ArrayList<>();
+//
+//            if (constraint == null || constraint.length() == 0) {
+//                filteredList.addAll(exampleListFull);
+//            } else {
+//                String filterPattern = constraint.toString().toLowerCase().trim();
+//
+//                for (Question item : exampleListFull) {
+//                    if (item.getTitle().toLowerCase().contains(filterPattern)) {
+//                        filteredList.add(item);
+//                    }
+//                }
+//            }
+//
+//            FilterResults results = new FilterResults();
+//            results.values = filteredList;
+//
+//            return results;
+//        }
 
-            if (constraint == null || constraint.length() == 0) {
-                filteredList.addAll(exampleListFull);
-            } else {
-                String filterPattern = constraint.toString().toLowerCase().trim();
-
-                for (Question item : exampleListFull) {
-                    if (item.getTitle().toLowerCase().contains(filterPattern)) {
-                        filteredList.add(item);
-                    }
-                }
-            }
-
-            FilterResults results = new FilterResults();
-            results.values = filteredList;
-
-            return results;
-        }
-
-        @Override
-        protected void publishResults(CharSequence constraint, FilterResults results) {
-            mList.clear();
-            mList.addAll((List) results.values);
-            notifyDataSetChanged();
-        }
-    };
-
+//        @Override
+//        protected void publishResults(CharSequence constraint, FilterResults results) {
+//            mList.clear();
+//            mList.addAll((List) results.values);
+//            notifyDataSetChanged();
+//        }
+//    };
 
 }

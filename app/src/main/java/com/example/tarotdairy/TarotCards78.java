@@ -65,13 +65,33 @@ public class TarotCards78 extends AppCompatActivity {
                 mGridLayoutManger.getOrientation());
         mRecyclerView.addItemDecoration(dividerItemDecoration);
 
+
+        //아이템 클릭했을 때 이벤트
+        mRecyclerView.addOnItemTouchListener(new TarotCards78.RecyclerTouchListener(getApplicationContext(), mRecyclerView, new TarotCards78.ClickListener() {
+            @Override
+            public void onClick(View view, int position) {
+                Tarots dia = mArrayList.get(position);
+
+                Intent intent = new Intent(TarotCards78.this, ResultQna.class);
+
+                intent.putExtra("from78", 0);
+                intent.putExtra("cardnumber", dia.getCardimage());
+
+                startActivity(intent);
+
+            }
+
+            @Override
+            public void onLongClick(View view, int position) {
+            }
+        }));
+
+
         mRecyclerView.addOnItemTouchListener(new RecyclerTouchListener(getApplicationContext(), mRecyclerView, new ClickListener() {
             @Override
             public void onClick(View view, int position) {
                 Tarots tarots = mArrayList.get(position);
-
-                Toast.makeText(TarotCards78.this, "카드명: "+tarots.getCardname(), Toast.LENGTH_SHORT).show();
-
+//                Toast.makeText(TarotCards78.this, "카드명: "+tarots.getCardname(), Toast.LENGTH_SHORT).show();
             }
 
             @Override

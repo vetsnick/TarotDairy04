@@ -73,10 +73,6 @@ public class HistoryQna extends AppCompatActivity {
         mArrayList = new ArrayList<>();
 
 
-        //arraylist에 데이터를 추가 후, 역순으로 바꿔준다
-        Collections.reverse(mArrayList);
-        Log.d("아니", "역순 되나요");
-
         mAdapter = new CustomAdapter(this, mArrayList);
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.setLayoutManager(mLinearLayoutManager);
@@ -98,6 +94,8 @@ public class HistoryQna extends AppCompatActivity {
 
                 Intent intent = new Intent(HistoryQna.this, ResultQna.class);
 
+                int maxID = sharedPreference.getInt("maxID",0)+1; //maxID라는 게시판전체에 번호를 줘서 객체를 식별 저장버튼을 누를때마다 +1씩 됨
+
                 intent.putExtra("title", ques.getTitle());
                 intent.putExtra("cardnumber", ques.getCardnum());
 
@@ -116,7 +114,6 @@ public class HistoryQna extends AppCompatActivity {
 
         ////////////////////////////////////
 
-        sharedPreference = getSharedPreferences(mFILENAME, MODE_PRIVATE);
         int maxID = sharedPreference.getInt("maxID", 0);
 
 //        for(int i = maxID; i==1; i--)
@@ -146,10 +143,13 @@ public class HistoryQna extends AppCompatActivity {
             mArrayList.add(quedata);
 
         }
+
+        
         mAdapter.notifyDataSetChanged(); //새로고침
 
 
-
+        //arraylist에 데이터를 추가 후, 역순으로 바꿔준다
+        Collections.reverse(mArrayList);
 
         /////////////////////////////////////
 
@@ -290,7 +290,7 @@ public class HistoryQna extends AppCompatActivity {
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                mAdapter.getFilter().filter(newText);
+//                mAdapter.getFilter().filter(newText);
                 return false;
             }
         });

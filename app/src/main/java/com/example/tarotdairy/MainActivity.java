@@ -32,7 +32,12 @@ import androidx.fragment.app.DialogFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.lang.reflect.Type;
 import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -40,6 +45,7 @@ import java.util.Random;
 
 
 public class MainActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
+
 
 
     private final int PICK_IMAGE = 1111;
@@ -69,10 +75,12 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
 
     EditText comment;
 
+    String activityday;
 
+    private ArrayList<Diary> diaryList;
     private ArrayList<Comment> mArrayList;
     private CommentAdapter mAdapter;
-    private int count = -1;
+
 
     int[] img = {R.drawable.carda, R.drawable.cardb, R.drawable.cardc, R.drawable.cardd, R.drawable.carde, R.drawable.cardf, R.drawable.cardg, R.drawable.cardh, R.drawable.cardi, R.drawable.cardj, R.drawable.cardk, R.drawable.cardl, R.drawable.cardm, R.drawable.cardn, R.drawable.cardo, R.drawable.cardp, R.drawable.cardq, R.drawable.cardr, R.drawable.cards, R.drawable.cardt, R.drawable.cardu, R.drawable.cardv};
     String[] cardname = {"0: 광대", "1: 마술사", "2: 고위 여사제", "3: 여황제", "4: 남황제", "5: 교황", "6: 연인들", "7: 전차", "8: 힘", "9:은둔자", "10: 운명의 수레바퀴", "11: 정의", "12: 매달린 사람", "13: 죽음", "14: 절제", "15: 악마", "16: 타워", "17: 별", "18: 달", "19: 해", "20: 심판", "21: 세계"};
@@ -88,6 +96,11 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
         setContentView(R.layout.activity_main);
 
 
+        SharedPreferences sf = getSharedPreferences("display", MODE_PRIVATE);
+
+
+        loadData();
+
 
         comment = findViewById(R.id.main_comment);
 
@@ -96,7 +109,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
         btn3 = findViewById(R.id.bottom_qna);
         btn4 = findViewById(R.id.bottom_setting);
 
-        gallery = findViewById(R.id.gallery);
+//        gallery = findViewById(R.id.gallery);
         send = findViewById(R.id.send);
 
         card = findViewById(R.id.todayscard);
@@ -108,20 +121,13 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
 
         btn = (TextView) findViewById(R.id.maindate);
 
+
         ////////////////////////////////////
-        RecyclerView mRecyclerView = (RecyclerView) findViewById(R.id.main_recyclerView);
-        mRecyclerView.setHasFixedSize(true);
-
-        LinearLayoutManager mLinearLayoutManager = new LinearLayoutManager(this);
 
 
-        mRecyclerView.setLayoutManager(mLinearLayoutManager);
 
-        mArrayList = new ArrayList<>();
-        mAdapter = new CommentAdapter(this, mArrayList);
-        mRecyclerView.setAdapter(mAdapter);
+//        mRecyclerView.setNestedScrollingEnabled(false);
 
-        mRecyclerView.setNestedScrollingEnabled(false);
 
 // 아래는 구분선 주는거
 //        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(mRecyclerView.getContext(),
@@ -130,7 +136,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
         ////////////////////////////////////
 
 
-        //나중에 스플래쉬에 넣을 일이 생기면 최초 실행을 넣어주도록 하자
+        //나중에 스플래시에 넣을 일이 생기면 최초 실행을 넣어주도록 하자
         SharedPreferences sharedPreference = getSharedPreferences("cardsData", MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreference.edit();
 
@@ -149,11 +155,10 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
                 System.out.println(i + "번 실행");
                 editor.commit();
             }
-
             editor.putBoolean("isFirst", true);
             editor.commit();
         } else {
-            Log.d("Is first Time?", "not first");
+            Log.d("최초실행 여부: ", "false");
         }
 
 
@@ -199,43 +204,54 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
             public void onClick(View v) {
 
                 withRatingBar(v);
-//                final RatingBar dlgrating = new RatingBar(MainActivity.this);
-//
-//                AlertDialog.Builder dlg = new AlertDialog.Builder(MainActivity.this);
-//                dlg.setView(R.layout.activity_rating);
-//
-//                dlg.setTitle("별점 입력");
-//                dlgrating.setNumStars(5);
-//                dlgrating.setStepSize(0.5f);
-//                dlg.setView(dlgrating);
-//
-//
-//                dlg.setPositiveButton("저장", new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialog, int which) {
-//                        ratingbar.setRating(dlgrating.getRating());
-//                    }
-//                });
-//                dlg.show();
+
             }
         });
 
-        gallery.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                CreateListDialog();
-            }
-        });
+//        gallery.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                CreateListDialog();
+//            }
+//        });
+
+
+
+
+
+        Calendar c = Calendar.getInstance();
+        int year = c.get(Calendar.YEAR);
+        int month = c.get(Calendar.MONTH);
+        int day = c.get(Calendar.DAY_OF_MONTH);
+
+
+//        datepicker
+        String currentDateString = DateFormat.getDateInstance(DateFormat.FULL).format(c.getTime());
+        TextView textView = (TextView) findViewById(R.id.maindate);
+        textView.setText(currentDateString);
+
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy.MM.dd");
+        String todaydaypick = simpleDateFormat.format(c.getTime());
+
+        System.out.println("번호" + todaydaypick);
+
+        activityday = todaydaypick;
+
+        System.out.println("뜨나?4"+activityday);
+
+        loadcomment();
+        RecyclerView mRecyclerView = (RecyclerView) findViewById(R.id.main_recyclerView);
+        mRecyclerView.setHasFixedSize(true);
+        LinearLayoutManager mLinearLayoutManager = new LinearLayoutManager(this);
+        mRecyclerView.setLayoutManager(mLinearLayoutManager);
+
+        mAdapter = new CommentAdapter(this, mArrayList);
+        mRecyclerView.setAdapter(mAdapter);
 
 
         send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-
-                //키보드 내리기
-//                InputMethodManager mInputMethodManager = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
-//                mInputMethodManager.hideSoftInputFromWindow(comment.getWindowToken(), 0);
 
                 // 아이디 또는 비밀번호가 일치하지 않습니다 사용 예정
                 if (comment.getText().toString().length() == 0) {
@@ -256,25 +272,25 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
 
                     mRecyclerView.scrollToPosition(0);
 
+
+                    SharedPreferences sp = getSharedPreferences("display", MODE_PRIVATE);
+                    SharedPreferences.Editor editor = sp.edit();
+                    Gson gson = new Gson();
+                    String json1 = gson.toJson(mArrayList);
+                    editor.putString(activityday+"key", json1);
+                    editor.apply();
+
+                    System.out.println("출력1: "+activityday+json1);
+
+
                 }
 
                 comment.setText("");
                 mRecyclerView.scrollToPosition(0);
+
+
             }
         });
-
-
-        Calendar c = Calendar.getInstance();
-//        int year = c.get(Calendar.YEAR);
-//        int month = c.get(Calendar.MONTH);
-//        int day = c.get(Calendar.DAY_OF_MONTH);
-
-
-//        datepicker
-        String currentDateString = DateFormat.getDateInstance(DateFormat.LONG).format(c.getTime());
-        TextView textView = (TextView) findViewById(R.id.maindate);
-        textView.setText(currentDateString);
-
 
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -288,15 +304,48 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
         card.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                cardPicker();
+
+                SharedPreferences sharedPreference = getSharedPreferences("cardpick", MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPreference.edit();
+
+                //해당일 첫 카드 픽이면 false라서 실행됨
+                boolean first = sharedPreference.getBoolean(activityday + "pick", false);
+
+                if (first == false) {
+                    insert();
+                    cardPicker();
+
+                    editor.putBoolean(activityday + "pick", true);
+                    editor.commit();
+                } else {
+                    Toast.makeText(getApplicationContext(), "카드 정보 화면 이동 (예정)", Toast.LENGTH_SHORT).show();
+                }
+
             }
         });
+        reload();
+    }
+
+
+
+    private void reload() {
+
+        SharedPreferences sf = getSharedPreferences("display",MODE_PRIVATE);
+        int cardnum = sf.getInt(activityday+"todaycard", 0);
+        float ratenum = sf.getFloat(activityday+"todayrate", 0);
+
+        System.out.println("테스트123"+activityday);
+        System.out.println("테스트123"+cardnum);
+        System.out.println("테스트123"+ratenum);
+
+        card.setImageResource(cardnum);
+        ratingbar.setRating(ratenum);
 
 
     }
 
 
-        public void withRatingBar(View v) {
+    public void withRatingBar(View v) {
 
             AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
             LayoutInflater inflater = getLayoutInflater();
@@ -308,9 +357,21 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
                     ratingbar.setRating(withratingBar.getRating());
+
+                    SharedPreferences sf = getSharedPreferences("display",MODE_PRIVATE);
+                    SharedPreferences.Editor editor = sf.edit();
+
+                    float get = withratingBar.getRating();
+                    editor.putFloat(activityday+"todayrate", get);
+
+                    System.out.println("레이팅바 테스트: "+withratingBar.getRating());
+
+                    editor.commit();
+                    reload();
                 }
             });
             builder.show();
+
         }
 
 
@@ -352,7 +413,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
 
 
     private void cardPicker() {
-        //★아래는 로딩 다이얼로그 (나중에 카드 정보 액티비티 띄울 때 사용하자)
+        //아래는 로딩 다이얼로그 (나중에 카드 정보 액티비티 띄울 때 사용하자)
 //        ProgressDialog oDialog = new ProgressDialog(this,
 //                android.R.style.Theme_DeviceDefault_Light_Dialog);
 //        oDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
@@ -364,7 +425,16 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
         int num = ram.nextInt(img.length);
         card.setImageResource(img[num]);
         keyword.setText("키워드: " + num + "번 카드 키워드 작성 예정");
-        Toast.makeText(MainActivity.this, "다시 안뽑히게 설정하기 (DB)", Toast.LENGTH_SHORT).show();
+
+
+        SharedPreferences sf = getSharedPreferences("display",MODE_PRIVATE);
+        SharedPreferences.Editor editor = sf.edit();
+
+        editor.putInt(activityday+"todaycard", img[num]);
+        editor.commit();
+
+
+        saveData();
     }
 
 
@@ -377,12 +447,28 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
 
         String currentDateString = DateFormat.getDateInstance(DateFormat.FULL).format(c.getTime());
 
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+        String daypick = sdf.format(c.getTime());
+
+        System.out.println("데이트 피커 날짜 yyyyMMdd: " + daypick);
+
+
+        activityday = daypick;
+
         TextView textView = (TextView) findViewById(R.id.maindate);
         textView.setText(currentDateString);
+
+        System.out.println("날짜 테스트: " + activityday);
+
+        reload();
+
+
     }
 
     @Override
     public void onBackPressed() {
+        System.out.println("전역 날짜 테스트: " + activityday);
+
         // 기존 뒤로가기 버튼의 기능을 막기위해 주석처리 또는 삭제
         // super.onBackPressed();
 
@@ -552,5 +638,62 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
 
     }
 
+    private void saveData() {
+        SharedPreferences sharedPreferences = getSharedPreferences("DiaryList", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        Gson gson = new Gson();
 
+        //기존 리스트에 새로운 목록 추가
+        String json = gson.toJson(diaryList);
+        editor.putString("diarys", json);
+        editor.commit();
+
+
+        System.out.println("제이슨1: " + json);
+    }
+
+
+    private void loadData() {
+        SharedPreferences sharedPreferences = getSharedPreferences("DiaryList", MODE_PRIVATE);
+        Gson gson = new Gson();
+
+        String json = sharedPreferences.getString("diarys", null);
+        System.out.println("제이슨2: " + json);
+
+        Type type = new TypeToken<ArrayList<Diary>>() {
+        }.getType();
+        diaryList = gson.fromJson(json, type);
+        if (diaryList == null) {
+            diaryList = new ArrayList<>();
+        }
+
+    }
+
+
+    public void insert() {
+        diaryList.add(new Diary(activityday, 0, ratingbar.getNumStars(), null));
+        mAdapter.notifyItemInserted(diaryList.size());
+    }
+
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+    }
+
+
+    private void loadcomment() {
+        SharedPreferences sp = getSharedPreferences("display", MODE_PRIVATE);
+        Gson gson = new Gson();
+        String json = sp.getString(activityday+"key", null);
+        Type type = new TypeToken<ArrayList<Comment>>() {}.getType();
+        mArrayList = gson.fromJson(json, type);
+
+        System.out.println("출력2: "+activityday+json);
+
+        if (mArrayList == null) {
+            mArrayList = new ArrayList<>();
+        }
+
+    }
 }

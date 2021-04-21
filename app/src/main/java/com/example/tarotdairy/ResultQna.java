@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -27,23 +28,38 @@ public class ResultQna extends AppCompatActivity {
 
         title = extras.getString("title");
         cardnum = extras.getInt("cardnumber");
-        System.out.println(cardnum + " 제발제발제발");
+
+        int what = extras.getInt("from78");
 
         Intent intent = new Intent(this.getIntent());
 
-        TextView cardname = findViewById(R.id.result_cardname);
 
+        TextView cardname = findViewById(R.id.result_cardname);
         TextView questiontitle = findViewById(R.id.result_question);
         ImageView questioncard = findViewById(R.id.result_card);
 
         TextView yesno = findViewById(R.id.result_yesno);
         TextView key = findViewById(R.id.result_keyword);
 
+        TextView qt = findViewById(R.id.result_question1);
+
+        if(what == 0){
+            qt.setVisibility(View.GONE);
+            questiontitle.setVisibility(View.GONE);
+        }
+
+
+
         String resulttitle = title;
         int resultcard = intent.getIntExtra("cardnumber", 1);
 
+
         questiontitle.setText(resulttitle);
         questioncard.setImageResource(resultcard);
+
+
+
+
 
 
         String name = sp.getString(cardnum+"cardname", "재시도");

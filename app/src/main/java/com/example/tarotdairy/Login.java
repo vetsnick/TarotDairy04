@@ -54,6 +54,7 @@ public class Login extends AppCompatActivity {
 
                 if (!id.getText().toString().equals("") && !pw.getText().toString().equals("")) {
                     loginUser(id.getText().toString(), pw.getText().toString());
+
                 } else {
                     mDialog.dismiss();
                     Toast.makeText(Login.this, "이메일과 비밀번호를 입력하세요.", Toast.LENGTH_LONG).show();

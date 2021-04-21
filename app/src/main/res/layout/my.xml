@@ -206,7 +206,7 @@
                     android:drawableTop="@drawable/ic_baseline_view_carousel_24"
                     android:drawableTint="#151515"
                     android:padding="0dp"
-                    android:text="78장"
+                    android:text="22장"
                     android:textColor="#151515"
                     android:textSize="10dp" />
 

@@ -120,16 +120,14 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
 
     @Override
     public void onBindViewHolder(@NonNull CommentViewHolder holder, int position) {
-//        Comment current = mList.get(position);
+        Comment current = mList.get(position);
 
-        holder.comment.setGravity(Gravity.LEFT);
-
-        holder.comment.setText(mList.get(position).getComment());
+        holder.comment.setText(current.getComment());
 
     }
 
     @Override
     public int getItemCount() {
-        return (null != mList ? mList.size() : 0);
+        return mList.size();
     }
 }

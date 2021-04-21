@@ -1,23 +1,33 @@
 package com.example.tarotdairy;
 
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
-
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.GestureDetector;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
-import java.text.DateFormat;
-import java.util.Calendar;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 public class HistoryDiary extends AppCompatActivity {
+
+    private static SharedPreferences sharedPreference;
 
     private long backKeyPressedTime = 0;
     private Toast toast;
@@ -27,6 +37,9 @@ public class HistoryDiary extends AppCompatActivity {
     ImageView btn3;
     ImageView btn4;
 
+    private ArrayList<Diary> mArrayList;
+    private DiaryAdapter mAdapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,6 +47,43 @@ public class HistoryDiary extends AppCompatActivity {
         actionBar.setTitle("다이어리");
         setContentView(R.layout.activity_diary_history);
 
+        loadData();
+
+        RecyclerView mRecyclerView = (RecyclerView) findViewById(R.id.diary_recycler_view);
+        mRecyclerView.setHasFixedSize(true);
+        LinearLayoutManager mLinearLayoutManager = new LinearLayoutManager(this);
+
+        mAdapter = new DiaryAdapter(this, mArrayList);
+
+//        mArrayList = new ArrayList<>(); //나중에 main에서 저장된 json 파일 정렬됨
+
+        mRecyclerView.setLayoutManager(mLinearLayoutManager);
+        mRecyclerView.setAdapter(mAdapter);
+
+
+        //구분선 넣기
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(mRecyclerView.getContext(),
+                mLinearLayoutManager.getOrientation());
+        mRecyclerView.addItemDecoration(dividerItemDecoration);
+
+        //아이템 클릭했을 때 이벤트
+        mRecyclerView.addOnItemTouchListener(new HistoryDiary.RecyclerTouchListener(getApplicationContext(), mRecyclerView, new HistoryDiary.ClickListener() {
+            @Override
+            public void onClick(View view, int position) {
+                Diary dia = mArrayList.get(position);
+
+                Intent intent = new Intent(HistoryDiary.this, ResultDiary.class);
+
+                intent.putExtra("picked_date", dia.getDiarytime());
+
+                startActivity(intent);
+
+            }
+
+            @Override
+            public void onLongClick(View view, int position) {
+            }
+        }));
 
 
         btn1 = findViewById(R.id.bottom_home);
@@ -112,11 +162,8 @@ public class HistoryDiary extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.diaryqna, menu);
-
 //        MenuItem menuItem = menu.findItem(R.id.menu_search);
 //        return super.onCreateOptionsMenu(menu);
-
-
         return true;
     }
 
@@ -124,7 +171,7 @@ public class HistoryDiary extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch(item.getItemId()){
+        switch (item.getItemId()) {
             case R.id.menu_search:
                 break;
             default:
@@ -133,4 +180,81 @@ public class HistoryDiary extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+    public class RecyclerTouchListener implements RecyclerView.OnItemTouchListener {
+
+        private GestureDetector gestureDetector;
+        private HistoryDiary.ClickListener clickListener;
+
+
+        public RecyclerTouchListener(Context context, final RecyclerView recyclerView, HistoryDiary.ClickListener clickListener) {
+            this.clickListener = clickListener;
+            gestureDetector = new GestureDetector(context, new GestureDetector.SimpleOnGestureListener() {
+                @Override
+                public boolean onSingleTapUp(MotionEvent e) {
+                    return true;
+                }
+
+                @Override
+                public void onLongPress(MotionEvent e) {
+                    View child = recyclerView.findChildViewUnder(e.getX(), e.getY());
+                    if (child != null && clickListener != null) {
+                        clickListener.onLongClick(child, recyclerView.getChildAdapterPosition(child));
+                    }
+                }
+            });
+        }
+
+
+        @Override
+        public boolean onInterceptTouchEvent(RecyclerView rv, MotionEvent e) {
+            View child = rv.findChildViewUnder(e.getX(), e.getY());
+            if (child != null && clickListener != null && gestureDetector.onTouchEvent(e)) {
+                clickListener.onClick(child, rv.getChildAdapterPosition(child));
+            }
+            return false;
+        }
+
+
+        @Override
+        public void onTouchEvent(RecyclerView rv, MotionEvent e) {
+        }
+
+        @Override
+        public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
+        }
+    }
+
+    public interface ClickListener {
+        void onClick(View view, int position);
+
+        void onLongClick(View view, int position);
+    }
+
+
+    private void loadData() {
+        Gson gson = new Gson();
+        SharedPreferences sharedPreferences = getSharedPreferences("DiaryList", MODE_PRIVATE);
+
+        String json = sharedPreferences.getString("diarys", null);
+
+        System.out.println("제이슨3: " + json); //데이터 null로 뜨는지 확인
+
+        Type type = new TypeToken<ArrayList<Diary>>() {
+        }.getType();
+        mArrayList = gson.fromJson(json, type);
+
+        System.out.println("정렬 순서 (전)" + mArrayList);
+
+
+
+        System.out.println("정렬 순서 (후)" + mArrayList);
+
+        if (mArrayList == null) {
+            mArrayList = new ArrayList<>();
+        }
+
+
+    }
+
 }
