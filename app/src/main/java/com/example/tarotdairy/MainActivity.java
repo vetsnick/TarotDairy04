@@ -40,6 +40,9 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Random;
 
@@ -75,7 +78,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
 
     EditText comment;
 
-    String activityday;
+    String activityday, cardkey;
 
     private ArrayList<Diary> diaryList;
     private ArrayList<Comment> mArrayList;
@@ -203,7 +206,18 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
             @Override
             public void onClick(View v) {
 
-                withRatingBar(v);
+                SharedPreferences sharedPreference = getSharedPreferences("cardpick", MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPreference.edit();
+
+                //해당일 첫 카드 픽이면 false라서 실행됨
+                boolean first = sharedPreference.getBoolean(activityday + "pick", false);
+
+                if(first == true){
+                    withRatingBar(v);
+                }else{
+                    Toast.makeText(MainActivity.this, "먼저 오늘의 카드를 뽑아주세요!", Toast.LENGTH_SHORT).show();
+                }
+
 
             }
         });
@@ -230,7 +244,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
         TextView textView = (TextView) findViewById(R.id.maindate);
         textView.setText(currentDateString);
 
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy.MM.dd");
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy년 MM월 dd일 (E)");
         String todaydaypick = simpleDateFormat.format(c.getTime());
 
         System.out.println("번호" + todaydaypick);
@@ -239,6 +253,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
 
         System.out.println("뜨나?4"+activityday);
 
+//        loadcomment();
         loadcomment();
         RecyclerView mRecyclerView = (RecyclerView) findViewById(R.id.main_recyclerView);
         mRecyclerView.setHasFixedSize(true);
@@ -334,45 +349,62 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
         int cardnum = sf.getInt(activityday+"todaycard", 0);
         float ratenum = sf.getFloat(activityday+"todayrate", 0);
 
+
+        SharedPreferences sp = getSharedPreferences("cardsData",MODE_PRIVATE);
+        cardkey = sp.getString(cardnum+"keyword","");
+
         System.out.println("테스트123"+activityday);
         System.out.println("테스트123"+cardnum);
         System.out.println("테스트123"+ratenum);
+        System.out.println("테스트123"+cardkey);
 
         card.setImageResource(cardnum);
         ratingbar.setRating(ratenum);
 
+        keyword.setText("키워드: " + cardkey);
 
+
+        loadcomment();
+
+        loadcomment();
+        RecyclerView mRecyclerView = (RecyclerView) findViewById(R.id.main_recyclerView);
+        mRecyclerView.setHasFixedSize(true);
+        LinearLayoutManager mLinearLayoutManager = new LinearLayoutManager(this);
+        mRecyclerView.setLayoutManager(mLinearLayoutManager);
+
+        mAdapter = new CommentAdapter(this, mArrayList);
+        mRecyclerView.setAdapter(mAdapter);
     }
 
 
     public void withRatingBar(View v) {
 
-            AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-            LayoutInflater inflater = getLayoutInflater();
-            builder.setTitle("");
-            View dialogLayout = inflater.inflate(R.layout.activity_rating, null);
-            final RatingBar withratingBar = dialogLayout.findViewById(R.id.ratingBar);
-            builder.setView(dialogLayout);
-            builder.setPositiveButton("확인", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialogInterface, int i) {
-                    ratingbar.setRating(withratingBar.getRating());
+        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+        LayoutInflater inflater = getLayoutInflater();
+        builder.setTitle("");
+        View dialogLayout = inflater.inflate(R.layout.activity_rating, null);
+        final RatingBar withratingBar = dialogLayout.findViewById(R.id.ratingBar);
+        builder.setView(dialogLayout);
+        builder.setPositiveButton("확인", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                ratingbar.setRating(withratingBar.getRating());
 
-                    SharedPreferences sf = getSharedPreferences("display",MODE_PRIVATE);
-                    SharedPreferences.Editor editor = sf.edit();
+                SharedPreferences sf = getSharedPreferences("display",MODE_PRIVATE);
+                SharedPreferences.Editor editor = sf.edit();
 
-                    float get = withratingBar.getRating();
-                    editor.putFloat(activityday+"todayrate", get);
+                float get = withratingBar.getRating();
+                editor.putFloat(activityday+"todayrate", get);
 
-                    System.out.println("레이팅바 테스트: "+withratingBar.getRating());
+                System.out.println("레이팅바 테스트: "+withratingBar.getRating());
 
-                    editor.commit();
-                    reload();
-                }
-            });
-            builder.show();
+                editor.commit();
+                reload();
+            }
+        });
+        builder.show();
 
-        }
+    }
 
 
     //  1. 다이얼로그 생성
@@ -424,7 +456,10 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
         Random ram = new Random();
         int num = ram.nextInt(img.length);
         card.setImageResource(img[num]);
-        keyword.setText("키워드: " + num + "번 카드 키워드 작성 예정");
+
+        SharedPreferences sp = getSharedPreferences("cardsData",MODE_PRIVATE);
+        System.out.println(":::::?????"+img[num]);
+        cardkey = sp.getString(img[num]+"keyword","");
 
 
         SharedPreferences sf = getSharedPreferences("display",MODE_PRIVATE);
@@ -433,6 +468,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
         editor.putInt(activityday+"todaycard", img[num]);
         editor.commit();
 
+        keyword.setText("키워드: " + cardkey);
 
         saveData();
     }
@@ -447,16 +483,20 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
 
         String currentDateString = DateFormat.getDateInstance(DateFormat.FULL).format(c.getTime());
 
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy년 MM월 dd일 (E)");
         String daypick = sdf.format(c.getTime());
+        activityday = daypick;
+
+
+        SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy년\nMM월 dd일 (E)");
 
         System.out.println("데이트 피커 날짜 yyyyMMdd: " + daypick);
 
 
-        activityday = daypick;
 
         TextView textView = (TextView) findViewById(R.id.maindate);
-        textView.setText(currentDateString);
+//        textView.setText(currentDateString);
+        textView.setText(sdf2.format(c.getTime()));
 
         System.out.println("날짜 테스트: " + activityday);
 
@@ -671,7 +711,20 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
 
 
     public void insert() {
-        diaryList.add(new Diary(activityday, 0, ratingbar.getNumStars(), null));
+        diaryList.add(new Diary(activityday));
+
+        Collections.sort(diaryList, new Comparator<Diary>() {
+            @Override
+            public int compare(Diary o1, Diary o2) {
+                return o1.getDiarytime().compareTo(o2.getDiarytime());
+            }
+        });
+
+        //sort 결과 출력
+        for (Diary diary : diaryList){
+                    System.out.println("결과두구두구"+diary);
+        }
+
         mAdapter.notifyItemInserted(diaryList.size());
     }
 

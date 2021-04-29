@@ -39,6 +39,7 @@ public class HistoryDiary extends AppCompatActivity {
 
     private ArrayList<Diary> mArrayList;
     private DiaryAdapter mAdapter;
+    RecyclerView mRecyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,22 +50,22 @@ public class HistoryDiary extends AppCompatActivity {
 
         loadData();
 
-        RecyclerView mRecyclerView = (RecyclerView) findViewById(R.id.diary_recycler_view);
+        mRecyclerView = (RecyclerView) findViewById(R.id.diary_recycler_view);
         mRecyclerView.setHasFixedSize(true);
+
         LinearLayoutManager mLinearLayoutManager = new LinearLayoutManager(this);
-
+        mLinearLayoutManager.setReverseLayout(true);
+        mLinearLayoutManager.setStackFromEnd(true);
         mAdapter = new DiaryAdapter(this, mArrayList);
-
-//        mArrayList = new ArrayList<>(); //나중에 main에서 저장된 json 파일 정렬됨
 
         mRecyclerView.setLayoutManager(mLinearLayoutManager);
         mRecyclerView.setAdapter(mAdapter);
 
 
-        //구분선 넣기
-        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(mRecyclerView.getContext(),
-                mLinearLayoutManager.getOrientation());
-        mRecyclerView.addItemDecoration(dividerItemDecoration);
+//        //구분선 넣기
+//        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(mRecyclerView.getContext(),
+//                mLinearLayoutManager.getOrientation());
+//        mRecyclerView.addItemDecoration(dividerItemDecoration);
 
         //아이템 클릭했을 때 이벤트
         mRecyclerView.addOnItemTouchListener(new HistoryDiary.RecyclerTouchListener(getApplicationContext(), mRecyclerView, new HistoryDiary.ClickListener() {
@@ -257,4 +258,11 @@ public class HistoryDiary extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        mRecyclerView.removeAllViewsInLayout();
+        mRecyclerView.setAdapter(mAdapter);
+    }
 }

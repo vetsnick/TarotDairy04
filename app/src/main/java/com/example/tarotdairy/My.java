@@ -4,12 +4,14 @@ import android.Manifest;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -19,20 +21,34 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ViewFlipper;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
+import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -42,9 +58,11 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class My extends AppCompatActivity {
 
+
     private final int PICK_IMAGE = 1111;
     private final int REQUEST_IMAGE_CAPTURE = 111;
     private int STORAGE_PERMISSION_CODE = 1;
+
 
     private long backKeyPressedTime = 0;
     private Toast toast;
@@ -68,6 +86,13 @@ public class My extends AppCompatActivity {
     LinearLayout profilecard;
     LinearLayout logincard;
 
+    ViewFlipper flipper;
+
+    FirebaseAuth fAuth;
+    FirebaseFirestore fStore;
+    String userId;
+
+    StorageReference storageReference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,7 +114,7 @@ public class My extends AppCompatActivity {
         email = findViewById(R.id.inquiry);
 
         logout = findViewById(R.id.my_logout);
-        activity = findViewById(R.id.my_activity);
+//        activity = findViewById(R.id.my_activity);
 
         circle = findViewById(R.id.my_circle);
         nick = findViewById(R.id.my_nick);
@@ -97,6 +122,41 @@ public class My extends AppCompatActivity {
         profilecard = findViewById(R.id.my_profilecard);
         logincard = findViewById(R.id.my_logincard);
 
+
+        fAuth = FirebaseAuth.getInstance();
+        fStore = FirebaseFirestore.getInstance();
+        storageReference = FirebaseStorage.getInstance().getReference();
+
+        //로그인 상태일때만 uid를 가져온다
+        if(SaveSharedPreference.getLoggedStatus(getApplicationContext())){
+            userId = fAuth.getCurrentUser().getUid();
+
+            //유저 닉네임
+            DocumentReference documentReference = fStore.collection("users").document(userId);
+            documentReference.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
+                @Override
+                public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
+                    nick.setText(value.getString("usernick"));
+
+                    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+                    if(user.getPhotoUrl() != null){
+                        Glide.with(My.this).load(user.getPhotoUrl()).into(circle);
+                    }
+                }
+            });
+        }
+        
+  
+
+
+
+        int imgarray[] = {R.drawable.slidera, R.drawable.sliderb, R.drawable.sliderc };
+        flipper = findViewById(R.id.my_flipper);
+
+        for (int i = 0; i < imgarray.length; i++){
+                    showimage(imgarray[i]);
+        }
 
 
 
@@ -177,12 +237,12 @@ public class My extends AppCompatActivity {
             }
         });
 
-        activity.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
+//        activity.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//
+//            }
+//        });
 
         nick.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -222,6 +282,11 @@ public class My extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(My.this, TarotCards78.class);
+
+                intent.putExtra("frommynick", nick.getText().toString());
+
+                System.out.println("닉네임 테스트:"+nick.getText());
+
                 startActivity(intent);
             }
         });
@@ -294,9 +359,9 @@ public class My extends AppCompatActivity {
                 SaveSharedPreference.setLoggedIn(getApplicationContext(), false);
 
                 overridePendingTransition(0, 0);
-
                 finish();
                 startActivity(new Intent(My.this, My.class));
+
             }
         });
 
@@ -432,12 +497,17 @@ public class My extends AppCompatActivity {
         if (requestCode == PICK_IMAGE) {
             if (resultCode == RESULT_OK) {
                 try {
-                    InputStream in = getContentResolver().openInputStream(data.getData());
+                    Uri imageUri = data.getData();
+                    circle.setImageURI(imageUri);
 
-                    Bitmap img = BitmapFactory.decodeStream(in);
-                    in.close();
-
-                    circle.setImageBitmap(img);
+                    uploadImageToFirebase(imageUri);
+                    
+//                    InputStream in = getContentResolver().openInputStream(data.getData());
+//
+//                    Bitmap img = BitmapFactory.decodeStream(in);
+//                    in.close();
+//
+//                    circle.setImageBitmap(img);
                 } catch (Exception e) {
 
                 }
@@ -458,5 +528,85 @@ public class My extends AppCompatActivity {
         }
     }
 
+    private void uploadImageToFirebase(Uri imageUri) {
+
+        // upload image to firebase storage
+        StorageReference fileRef = storageReference.child("profileImages").child(userId + ".jpeg");
+        fileRef.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+
+                fileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                    @Override
+                    public void onSuccess(Uri uri) {
+                        getDownloadUrl(fileRef);
+                    }
+                });
+
+                Toast.makeText(My.this, "image uploaded", Toast.LENGTH_SHORT).show();
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(My.this, "image failed", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void getDownloadUrl(StorageReference fileRef) {
+        fileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+            @Override
+            public void onSuccess(Uri uri) {
+                Log.d("d", "onSuccess: "+uri);
+                setUserProfileUri(uri);
+            }
+        });
+    }
+
+    private void setUserProfileUri(Uri uri) {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+        UserProfileChangeRequest request = new UserProfileChangeRequest.Builder().setPhotoUri(uri).build();
+        
+        user.updateProfile(request).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                Toast.makeText(My.this, "성공", Toast.LENGTH_LONG).show();
+
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(My.this, "실패실패", Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+    public void showimage(int img) {
+        ImageView imageView = new ImageView(this);
+        imageView.setBackgroundResource(img);
+
+        imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(img == R.drawable.slidera){
+                    Toast.makeText(My.this, "1", Toast.LENGTH_SHORT).show();
+                }
+                if(img == R.drawable.sliderb){
+                    Toast.makeText(My.this, "2", Toast.LENGTH_SHORT).show();
+                }
+                if(img == R.drawable.sliderc){
+                    Toast.makeText(My.this, "3", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+        flipper.addView(imageView);
+        flipper.setFlipInterval(3000);
+        flipper.setAutoStart(true);
+
+        flipper.setInAnimation(this, android.R.anim.slide_in_left);
+        flipper.setOutAnimation(this, android.R.anim.slide_out_right);
+    }
 
 }

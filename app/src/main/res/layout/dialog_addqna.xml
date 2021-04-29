@@ -17,7 +17,7 @@
         android:layout_marginTop="15dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/comment"/>
+        android:background="@drawable/diarylist" />
 
     <Button
         android:textColor="@color/white"

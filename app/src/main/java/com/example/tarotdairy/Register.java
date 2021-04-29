@@ -7,6 +7,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Rect;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.Button;
@@ -16,19 +17,24 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.HashMap;
+import java.util.Map;
 
 public class Register extends AppCompatActivity {
 
     //파이어베이스 인증 객체 생성
     private FirebaseAuth mAuth;
+    FirebaseFirestore fStore;
 
     TextView register;
     ProgressDialog mDialog;
@@ -38,6 +44,8 @@ public class Register extends AppCompatActivity {
     EditText pw2;
     EditText email;
 
+
+    String userID;
 //    Button checknick;
 //    Button checkid;
 
@@ -72,7 +80,7 @@ public class Register extends AppCompatActivity {
 //        checkid = findViewById(R.id.checkid);
 //        checknick = findViewById(R.id.checknick);
 
-
+        fStore = FirebaseFirestore.getInstance();
 
 
 
@@ -81,7 +89,7 @@ public class Register extends AppCompatActivity {
             public void onClick(View view) {
 
 
-                if ( nick.getText().toString().length() == 0 ) {
+                if ( nick.getText().toString().trim().length() == 0 ) {
                     Toast.makeText(Register.this, "닉네임을 입력하세요", Toast.LENGTH_SHORT).show();
                     nick.requestFocus();
                     return;
@@ -196,6 +204,21 @@ public class Register extends AppCompatActivity {
                         public void onComplete(@NonNull Task<Void> task) {
 
                             if(task.isSuccessful()){
+
+                                userID = mAuth.getCurrentUser().getUid();
+                                DocumentReference documentReference = fStore.collection("users").document(userID);
+                                Map<String,Object> user = new HashMap<>();
+                                user.put("usernick",firenick);
+                                user.put("userid", fireid);
+                                user.put("userimg", null);
+
+                                documentReference.set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void aVoid) {
+                                        Log.d("TAG", "onSuccess : user Profile is created for "+ userID);
+                                    }
+                                });
+
                                 mDialog.dismiss();
                                 // 회원가입 성공시
                                 Toast.makeText(Register.this, "회원가입 성공", Toast.LENGTH_SHORT).show();
@@ -211,21 +234,6 @@ public class Register extends AppCompatActivity {
 
 
 
-//                    FirebaseUser user = mAuth.getCurrentUser();
-//                    String email = user.getEmail();
-//                    String uid = user.getUid();
-//                    String name = firenick.trim();
-//
-//                    //해쉬맵 테이블을 파이어베이스 데이터베이스에 저장
-//                    HashMap<Object,String> hashMap = new HashMap<>();
-//
-//                    hashMap.put("uid",uid);
-//                    hashMap.put("email",email);
-//                    hashMap.put("name",name);
-//
-//                    FirebaseDatabase database = FirebaseDatabase.getInstance();
-//                    DatabaseReference reference = database.getReference("Users");
-//                    reference.child(uid).setValue(hashMap);
 
 
                 } else {

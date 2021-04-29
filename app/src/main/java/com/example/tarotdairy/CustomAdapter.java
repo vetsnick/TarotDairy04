@@ -206,6 +206,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
         Date time = new Date(unixTime);
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd hh:mm (E)", Locale.KOREA);
         String formattedTime = sdf.format(time);
+        viewholder.date.setText(formattedTime);
 
 //        viewholder.title.setTextSize();
 //        viewholder.date.setTextSize(TypedValue.COMPLEX_UNIT_SP, 25);
@@ -217,7 +218,6 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
 
 
         viewholder.title.setText(mList.get(position).getTitle());
-        viewholder.date.setText(formattedTime);
 //        viewholder.date.setText(mList.get(position).getTimestamp());
         viewholder.card.setImageResource(mList.get(position).getCardnum());
     }

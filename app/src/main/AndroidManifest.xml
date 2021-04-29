@@ -21,7 +21,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.TarotDairy">
-        <activity android:name=".ResultDiary"></activity>
+        <activity android:name=".Users_Opinion"></activity>
+        <activity android:name=".ResultDiary" />
         <activity android:name=".TarotCards78" />
         <activity android:name=".ResultQna" />
         <activity android:name=".Inquiry" />
@@ -29,8 +30,10 @@
         <activity android:name=".MySettings" />
         <activity android:name=".Register" />
         <activity android:name=".Login" />
-        <activity android:name=".ResultDiary" />
         <activity android:name=".My" />
+        <activity
+            android:name=".MainActivity"
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".HistoryQna"
             android:configChanges="orientation|screenSize"
@@ -39,9 +42,9 @@
             android:name=".HistoryDiary"
             android:windowSoftInputMode="adjustPan" />
         <activity
-            android:name=".MainActivity"
+            android:name=".SplashActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan">
+            android:theme="@style/Theme.Design.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

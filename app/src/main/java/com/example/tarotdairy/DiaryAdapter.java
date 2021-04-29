@@ -1,6 +1,7 @@
 package com.example.tarotdairy;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,11 +18,17 @@ public class DiaryAdapter extends RecyclerView.Adapter<DiaryAdapter.DiaryViewHol
     private ArrayList<Diary> mExampleList;
     private Context mContext;
 
+    int setimg;
+    float setrate;
+    String setreview;
+
+
     public static class DiaryViewHolder extends RecyclerView.ViewHolder {
         public TextView date;
         public TextView review;
         public RatingBar rate;
         public ImageView card;
+
 
         public DiaryViewHolder(View itemView) {
             super(itemView);
@@ -42,6 +49,10 @@ public class DiaryAdapter extends RecyclerView.Adapter<DiaryAdapter.DiaryViewHol
 
     @Override
     public DiaryViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+
+        mContext = parent.getContext();
+        LayoutInflater inflater = LayoutInflater.from(mContext);
+
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_diary, parent, false);
         DiaryViewHolder vh = new DiaryViewHolder(v);
         return vh;
@@ -51,12 +62,19 @@ public class DiaryAdapter extends RecyclerView.Adapter<DiaryAdapter.DiaryViewHol
     public void onBindViewHolder(DiaryViewHolder holder, int position) {
         Diary currentItem = mExampleList.get(position);
 
-        holder.date.setText(currentItem.getDiarytime());
-        holder.card.setImageResource(currentItem.getDiarycardnum());
-        holder.rate.setRating(currentItem.getDiaryrate());
-        holder.date.setText(currentItem.getDiaryreview());
+        SharedPreferences sf = mContext.getSharedPreferences("display", mContext.MODE_PRIVATE);
 
-        System.out.println("과연?:" + currentItem.getDiarycardnum() + "&" + currentItem.getDiarytime());
+        setimg = sf.getInt(currentItem.getDiarytime()+"todaycard", 0);
+        setrate = sf.getFloat(currentItem.getDiarytime()+"todayrate", 0);
+        setreview = sf.getString(currentItem.getDiarytime()+"review", "");
+
+
+        holder.date.setText(currentItem.getDiarytime());
+        holder.card.setImageResource(setimg);
+        holder.rate.setRating(setrate);
+        holder.review.setText(setreview);
+
+        System.out.println("과연?:" + setreview + setimg + setrate);
 
     }
 

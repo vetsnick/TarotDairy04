@@ -28,7 +28,7 @@ public class TarotCards78 extends AppCompatActivity {
     int[] img = {R.drawable.carda, R.drawable.cardb, R.drawable.cardc, R.drawable.cardd, R.drawable.carde, R.drawable.cardf, R.drawable.cardg, R.drawable.cardh, R.drawable.cardi, R.drawable.cardj, R.drawable.cardk, R.drawable.cardl, R.drawable.cardm, R.drawable.cardn, R.drawable.cardo, R.drawable.cardp, R.drawable.cardq, R.drawable.cardr, R.drawable.cards, R.drawable.cardt, R.drawable.cardu, R.drawable.cardv};
     String[] cardname = {"0: 광대","1: 마술사","2: 고위 여사제","3: 여황제","4: 남황제","5: 교황","6: 연인들","7: 전차","8: 힘","9:은둔자","10: 운명의 수레바퀴","11: 정의","12: 매달린 사람","13: 죽음","14: 절제","15: 악마","16: 타워","17: 별","18: 달","19: 해","20: 심판","21: 세계"};
 
-    
+    String nick;
 
 
 
@@ -37,6 +37,11 @@ public class TarotCards78 extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tarot_cards78);
+
+        Bundle extras = getIntent().getExtras();
+        nick = extras.getString("frommynick");
+        System.out.println("닉네임 테스트2:"+nick);
+
 
 
         int[] img = {R.drawable.carda, R.drawable.cardb, R.drawable.cardc, R.drawable.cardd, R.drawable.carde, R.drawable.cardf, R.drawable.cardg, R.drawable.cardh, R.drawable.cardi, R.drawable.cardj, R.drawable.cardk, R.drawable.cardl, R.drawable.cardm, R.drawable.cardn, R.drawable.cardo, R.drawable.cardp, R.drawable.cardq, R.drawable.cardr, R.drawable.cards, R.drawable.cardt, R.drawable.cardu, R.drawable.cardv};
@@ -76,6 +81,7 @@ public class TarotCards78 extends AppCompatActivity {
 
                 intent.putExtra("from78", 0);
                 intent.putExtra("cardnumber", dia.getCardimage());
+                intent.putExtra("fromtc", nick);
 
                 startActivity(intent);
 

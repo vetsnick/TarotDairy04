@@ -16,6 +16,14 @@
         android:layout_weight="1"
         android:orientation="vertical">
 
+
+        <ViewFlipper
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="180dp"
+            android:id="@+id/my_flipper"
+            android:layout_gravity="center"/>
+
         <LinearLayout
             android:id="@+id/my_profilecard"
             android:layout_marginTop="30dp"
@@ -40,10 +48,10 @@
 
                 <TextView
                     android:id="@+id/my_nick"
+                    android:hint="닉네임"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="닉네임"
                     android:textSize="24dp" />
 
                 <!--                    <ImageView-->
@@ -58,12 +66,12 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
 
-                    <Button
+                    <!--<Button
                         android:id="@+id/my_activity"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="쪽지"
-                        android:textColor="@color/white" />
+                        android:textColor="@color/white" />-->
 
                     <Button
                         android:id="@+id/my_logout"
@@ -85,8 +93,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
-
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="40dp"
             android:layout_marginRight="10dp"
             android:layout_marginBottom="30dp"
             android:orientation="vertical"
@@ -130,15 +137,14 @@
                 android:layout_marginBottom="17dp">
 
                 <Button
-                    android:id="@+id/inquiry"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_column="0"
                     android:background="#00ff0000"
-                    android:drawableTop="@drawable/ic_baseline_headset_mic_24"
+                    android:drawableTop="@drawable/ic_baseline_notifications_none_24"
                     android:drawableTint="#151515"
                     android:padding="0dp"
-                    android:text="1:1 문의"
+                    android:text="알림함"
                     android:textColor="#151515"
                     android:textSize="10dp" />
 
@@ -146,10 +152,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="#00ff0000"
-                    android:drawableTop="@drawable/ic_baseline_star_24"
+                    android:drawableTop="@drawable/ic_baseline_article_24"
                     android:drawableTint="#151515"
                     android:padding="0dp"
-                    android:text="평가 게시판"
+                    android:text="자료 게시판"
                     android:textColor="#151515"
                     android:textSize="10dp" />
 
@@ -186,16 +192,18 @@
                 android:layout_marginBottom="17dp">
 
                 <Button
+                    android:id="@+id/inquiry"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_column="0"
                     android:background="#00ff0000"
-                    android:drawableTop="@drawable/ic_baseline_notifications_none_24"
+                    android:drawableTop="@drawable/ic_baseline_headset_mic_24"
                     android:drawableTint="#151515"
                     android:padding="0dp"
-                    android:text="알림함"
+                    android:text="1:1 문의"
                     android:textColor="#151515"
-                    android:textSize="10dp" />
+                    android:textSize="10dp"
+                    />
 
                 <Button
                     android:id="@+id/my_tarotcards"
@@ -253,7 +261,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="53dp"
         android:layout_weight="0"
         android:background="@drawable/bottom"
         android:orientation="horizontal">

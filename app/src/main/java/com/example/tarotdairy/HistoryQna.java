@@ -78,10 +78,10 @@ public class HistoryQna extends AppCompatActivity {
         mRecyclerView.setLayoutManager(mLinearLayoutManager);
 
 
-        //구분선 넣기
-        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(mRecyclerView.getContext(),
-                mLinearLayoutManager.getOrientation());
-        mRecyclerView.addItemDecoration(dividerItemDecoration);
+//        //구분선 넣기
+//        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(mRecyclerView.getContext(),
+//                mLinearLayoutManager.getOrientation());
+//        mRecyclerView.addItemDecoration(dividerItemDecoration);
 
 
 
@@ -98,6 +98,8 @@ public class HistoryQna extends AppCompatActivity {
 
                 intent.putExtra("title", ques.getTitle());
                 intent.putExtra("cardnumber", ques.getCardnum());
+                intent.putExtra("from78", 1);
+
 
                 System.out.println(ques.getCardnum()+"씹씹씹");
 
@@ -271,31 +273,31 @@ public class HistoryQna extends AppCompatActivity {
         }
     }
 
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.diaryqna, menu);
-
-        MenuItem searchItem = menu.findItem(R.id.menu_search);
-        SearchView searchView = (SearchView) searchItem.getActionView();
-
-        searchView.setImeOptions(EditorInfo.IME_ACTION_DONE);
-
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-//                mAdapter.getFilter().filter(newText);
-                return false;
-            }
-        });
-        return true;
-    }
+//
+//    @Override
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//        MenuInflater inflater = getMenuInflater();
+//        inflater.inflate(R.menu.diaryqna, menu);
+//
+//        MenuItem searchItem = menu.findItem(R.id.menu_search);
+//        SearchView searchView = (SearchView) searchItem.getActionView();
+//
+//        searchView.setImeOptions(EditorInfo.IME_ACTION_DONE);
+//
+//        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+//            @Override
+//            public boolean onQueryTextSubmit(String query) {
+//                return false;
+//            }
+//
+//            @Override
+//            public boolean onQueryTextChange(String newText) {
+////                mAdapter.getFilter().filter(newText);
+//                return false;
+//            }
+//        });
+//        return true;
+//    }
 
 
 

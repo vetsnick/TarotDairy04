@@ -6,11 +6,10 @@
 
 
     <LinearLayout
-
+        android:background="@drawable/diarylist"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
-        android:background="@drawable/comment"
         android:orientation="horizontal">
 
         <LinearLayout
@@ -20,12 +19,19 @@
             android:orientation="vertical">
 
             <TextView
-                android:textSize="20dp"
+                android:layout_marginBottom="3dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginLeft="8dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="[Yes or No]"/>
+
+            <TextView
+                android:textSize="18dp"
                 android:id="@+id/item_qna_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="8dp"
-                android:layout_marginTop="5dp"
                 android:layout_marginRight="8dp"
                 android:fontFamily="@font/basic"
                 android:text="2021.04.01 (목)" />
@@ -41,6 +47,7 @@
                 android:layout_marginTop="5dp"
                 android:fontFamily="@font/basic"
                 android:maxLines="2"
+                android:textColor="#1C1C1C"
                 android:text="질문 미리보기"
                 android:textSize="28dp" />
         </LinearLayout>

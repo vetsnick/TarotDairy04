@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
-        android:background="@drawable/comment"
+        android:background="@drawable/diarylist"
         android:orientation="horizontal">
 
         <LinearLayout
@@ -23,6 +23,7 @@
                 android:layout_height="wrap_content">
 
                 <TextView
+                    android:textColor="#070719"
                     android:id="@+id/item_diary_date"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -30,24 +31,16 @@
                     android:layout_marginTop="5dp"
                     android:layout_marginRight="8dp"
                     android:fontFamily="@font/basic"
-                    android:text="2021.04.01 (목)"
-                    android:textSize="18dp" />
+                    android:text="2021년 04월 01일 (목)"
+                    android:textSize="21dp" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="8dp"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginRight="8dp"
-                    android:fontFamily="@font/basic"
-                    android:text="기념일 명칭" />
+
 
             </LinearLayout>
 
 
             <RatingBar
                 android:id="@+id/item_diary_rate"
-
                 style="?android:attr/ratingBarStyleIndicator"
                 android:layout_marginTop="3dp"
                 android:layout_width="wrap_content"
@@ -55,12 +48,13 @@
                 android:layout_marginLeft="3dp" />
 
             <TextView
+                android:textSize="18dp"
+                android:layout_marginLeft="5dp"
                 android:id="@+id/item_diary_review"
-
-                android:padding="5dp"
+                android:paddingTop="8dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:hint="내가 적은 한줄평"
+                android:hint=""
                 android:maxLines="1"/>
 
 
@@ -68,9 +62,8 @@
 
         <ImageView
             android:id="@+id/item_diary_card"
-
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_width="80dp"
+            android:layout_height="100dp"
             android:layout_margin="3dp"
             android:layout_weight="0" />
 

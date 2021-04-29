@@ -95,41 +95,35 @@
             android:textSize="25dp" />
     </LinearLayout>
 
-<!--    <LinearLayout-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_marginTop="8dp">-->
-
-<!--        <Button-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_marginLeft="5dp"-->
-<!--            android:layout_marginRight="5dp"-->
-<!--            android:layout_weight="1"-->
-<!--            android:text="현재 카드 기록"-->
-<!--            android:textColor="@color/white" />-->
-
-<!--        <Button-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_marginLeft="5dp"-->
-<!--            android:layout_marginRight="5dp"-->
-<!--            android:layout_weight="1"-->
-<!--            android:text="유저 평가 (준비중)"-->
-<!--            android:textColor="@color/white" />-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp">
 
 
-<!--        <Button-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_marginLeft="5dp"-->
-<!--            android:layout_marginRight="5dp"-->
-<!--            android:layout_weight="1"-->
-<!--            android:text="원문 사이트"-->
-<!--            android:textColor="@color/white" />-->
+        <Button
+            android:id="@+id/result_userscomments"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_weight="1"
+            android:text="유저 평가"
+            android:textColor="@color/white" />
 
 
-<!--    </LinearLayout>-->
+        <Button
+            android:id="@+id/result_infosite"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_weight="1"
+            android:text="원문 사이트"
+            android:textColor="@color/white" />
+
+
+    </LinearLayout>
 
 
 </LinearLayout>
